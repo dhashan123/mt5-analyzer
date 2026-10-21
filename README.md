@@ -65,7 +65,7 @@ Already have one? Drop it on the page.
 ## For developers
 
 The parser and the metrics are a faithful port of the Python implementation
-in the `mt5batch` project, and the two are checked against each other, so
+in the private `mt5batch` project, and the two are checked against each other, so
 this page and the paid reports can never quietly disagree.
 
 The page is a static site plus one Worker:
