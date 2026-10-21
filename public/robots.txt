@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://mt5-analyzer.dhashan.workers.dev/sitemap.xml

@@ -1,0 +1,29 @@
+name: Clean-room guard
+
+# This repository is public. The owner's personal trading system is not, and
+# nothing derived from it may ever be published here.
+#
+# This workflow runs on every push and on every pull request, and fails the
+# build if it finds anything from the personal system: component names, the
+# indicator parameter pairs, the broker account, the machine's addresses, or
+# the wallet's private key.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for anything private
+        run: python scripts/cleanroom_guard.py --history

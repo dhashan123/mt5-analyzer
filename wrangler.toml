@@ -1,0 +1,19 @@
+name = "mt5-analyzer"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+# The Worker must run first, otherwise the asset server answers every request
+# itself: POST /order comes back 405 and the API routes never execute.
+run_worker_first = true
+
+# The order queue. Created with:
+#   npx wrangler kv namespace create ORDERS
+[[kv_namespaces]]
+binding = "ORDERS"
+id = "06262863598b48ab92829e463185a832"
+
+[observability]
+enabled = true

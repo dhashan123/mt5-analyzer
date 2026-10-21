@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MT5 Backtest Report Analyzer — free, instant, no upload</title>
+<meta name="description" content="Drop a MetaTrader 5 Strategy Tester HTML report and get instant net profit, profit factor, expectancy, drawdown, cost sensitivity and a day-of-week breakdown. Runs entirely in your browser — the file is never uploaded.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/">
+<meta property="og:title" content="MT5 Backtest Report Analyzer">
+<meta property="og:description" content="Drop an MT5 Strategy Tester report. Get the numbers that matter, in your browser, instantly. The file is never uploaded.">
+<meta property="og:type" content="website">
+<style>
+:root{--bg:#0c0f14;--panel:#141922;--panel2:#1b212c;--border:#28303d;--text:#e8ebf2;--dim:#8b95a9;
+--good:#34c759;--bad:#ff5f56;--warn:#e3a008;--accent:#4c8dff;--accent2:#7b5cff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:17px;margin:32px 0 12px;color:var(--accent);letter-spacing:-.01em}
+h3{font-size:14px;margin:20px 0 8px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+p{color:#c6ccd9}
+a{color:var(--accent)}
+.sub{color:var(--dim);margin:0 0 24px;font-size:14px;max-width:70ch}
+.drop{border:2px dashed var(--border);border-radius:10px;padding:44px 20px;text-align:center;
+background:var(--panel);transition:.15s;cursor:pointer}
+.drop:hover,.drop.hot{border-color:var(--accent);background:var(--panel2)}
+.drop b{color:var(--text)}
+.small{font-size:13px;color:var(--dim)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.card .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.card .v{font-size:21px;font-weight:600;margin-top:3px;font-variant-numeric:tabular-nums}
+.card .n{font-size:11px;color:var(--dim);margin-top:2px}
+.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}.dim{color:var(--dim)}
+table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--border);
+border-radius:8px;overflow:hidden;margin:10px 0;font-variant-numeric:tabular-nums}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap;font-size:14px}
+th{background:#1d2430;color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+td:first-child,th:first-child{text-align:left}
+tr:last-child td{border-bottom:none}
+.verdict{border-radius:10px;padding:18px 20px;margin:16px 0;border:1px solid var(--border);background:var(--panel)}
+.verdict h2{margin:0 0 8px}
+.verdict.good{border-color:#1e5c2e;background:#0f2417}
+.verdict.bad{border-color:#6b2626;background:#251010}
+.verdict.warn{border-color:#6b551c;background:#241d0c}
+.verdict p{margin:6px 0}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;
+background:#1d2430;color:var(--dim);margin-right:6px}
+.pill.g{background:#123a1e;color:var(--good)}.pill.r{background:#3a1414;color:var(--bad)}
+.pill.y{background:#3a2f10;color:var(--warn)}
+svg{width:100%;height:auto;display:block;background:var(--panel);border:1px solid var(--border);border-radius:8px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:11px 18px;
+border-radius:8px;font-weight:600;font-size:14px}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn:hover{filter:brightness(1.1)}
+.cta{background:linear-gradient(135deg,#141a26,#1a1526);border:1px solid var(--accent2);
+border-radius:12px;padding:24px;margin:28px 0}
+.cta h2{margin-top:0}
+.cta ul{color:#c6ccd9;padding-left:20px}
+.cta li{margin:5px 0}
+code{background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:13px}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color:var(--dim);font-size:13px}
+.hidden{display:none}
+.err{background:#251010;border:1px solid #6b2626;color:#ffb4b0;padding:12px 14px;border-radius:8px;margin:12px 0}
+@media(max-width:600px){h1{font-size:22px}.wrap{padding:18px 14px 60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>MT5 Backtest Report Analyzer</h1>
+  <p class="sub">Drop a MetaTrader&nbsp;5 <b>Strategy Tester</b> HTML report on this page. You get the numbers
+  that actually matter — expectancy, drawdown, cost sensitivity, and where the profit came from — in about a second.
+  <b>The file is parsed in your browser and never uploaded anywhere.</b></p>
+
+  <div id="drop" class="drop">
+    <p style="font-size:18px;margin:0 0 6px"><b>Drop your .htm report here</b></p>
+    <p class="small" style="margin:0">or click to choose a file &nbsp;·&nbsp; MT5 writes it to your terminal's data folder
+    as <code>&lt;name&gt;.htm</code></p>
+    <input type="file" id="file" accept=".htm,.html" class="hidden">
+  </div>
+
+  <div id="err" class="err hidden"></div>
+
+  <div id="out" class="hidden">
+    <div id="head"></div>
+    <div id="verdict"></div>
+    <div id="cards"></div>
+    <div id="charts"></div>
+    <div id="tables"></div>
+    <div id="cta"></div>
+  </div>
+
+  <div id="intro">
+    <h2>What this tells you that a screenshot does not</h2>
+    <p>A Strategy Tester report is a page of numbers. The ones that decide whether a strategy is worth
+    trading are the ones MT5 does not print: the equity curve rebuilt from the deals, the worst losing
+    streak and where in the sample it happened, the break-even win rate implied by your average win and
+    average loss, profit split by day-of-week and hour-of-day, and what the result looks like when
+    commission and swap are doubled and tripled.</p>
+    <p>This page computes all of them, and gives you a plain reading of the result.</p>
+    <h2>How to get your report</h2>
+    <p>In MetaTrader 5: open the Strategy Tester, set it up, press <b>Run</b>, then right-click the
+    <b>Results</b> grid → <b>Report</b> → <b>HTML</b>. It is written to your terminal's data folder.
+    If you already have one, this page is the fastest way to read it.</p>
+    <h2>Privacy</h2>
+    <p>Nothing is uploaded. The file is read with the browser's File API and parsed locally in JavaScript.
+    There is no server call for the analysis, so the report never leaves your machine.</p>
+  </div>
+
+  <footer>
+    <p>Free tool. The walk-forward validation, parameter sweep and version-comparison reports are paid
+    services — see below. No profitability claims are made anywhere on this site, and none should be
+    inferred from any number it shows: these are historical simulations with modelled execution, not
+    forecasts.</p>
+  </footer>
+</div>
+
+<script src="./app.js"></script>
+<script>
+(function () {
+  var drop = document.getElementById('drop');
+  var input = document.getElementById('file');
+  var err = document.getElementById('err');
+  var out = document.getElementById('out');
+  var intro = document.getElementById('intro');
+
+  function fail(msg) {
+    err.textContent = msg;
+    err.classList.remove('hidden');
+    out.classList.add('hidden');
+  }
+
+  drop.addEventListener('click', function () { input.click(); });
+  input.addEventListener('change', function () {
+    if (input.files && input.files[0]) handle(input.files[0]);
+  });
+  ['dragenter', 'dragover'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('hot'); });
+  });
+  ['dragleave', 'drop'].forEach(function (ev) {
+    drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('hot'); });
+  });
+  drop.addEventListener('drop', function (e) {
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) handle(e.dataTransfer.files[0]);
+  });
+
+  function handle(file) {
+    err.classList.add('hidden');
+    var reader = new FileReader();
+    reader.onerror = function () { fail('Could not read that file.'); };
+    reader.onload = function () {
+      try {
+        var text = MT5.readReportText(new Uint8Array(reader.result));
+        var report = MT5.parseReport(text);
+        if (!report.results || !Object.keys(report.results).length) {
+          fail('That file does not look like a Strategy Tester report. ' +
+               'Open the MT5 Strategy Tester, run the test, then right-click the Results grid → Report → HTML.');
+          return;
+        }
+        render(report, file.name);
+        out.classList.remove('hidden');
+        intro.classList.add('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (ex) {
+        fail('Could not parse that report: ' + (ex && ex.message ? ex.message : ex));
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  function render(report, name) {
+    var m = MT5.metrics(report);
+    document.getElementById('head').innerHTML =
+      '<h2 style="margin-top:24px">' + MT5.esc(name) + '</h2>' +
+      '<p class="small" style="margin-top:-4px">' +
+      MT5.esc(report.settings.Expert || 'EA') + ' · ' + MT5.esc(report.settings.Symbol || '?') + ' ' +
+      MT5.esc(report.settings.Period || '') + ' · deposit ' + MT5.esc(report.settings['Initial Deposit'] || '?') +
+      ' ' + MT5.esc(report.settings.Currency || '') + '</p>';
+
+    document.getElementById('verdict').innerHTML = MT5.verdictHtml(m);
+    document.getElementById('cards').innerHTML = MT5.cardsHtml(m);
+    document.getElementById('charts').innerHTML = MT5.chartsHtml(m);
+    document.getElementById('tables').innerHTML = MT5.tablesHtml(m);
+    document.getElementById('cta').innerHTML = MT5.ctaHtml();
+  }
+})();
+</script>
+</body>
+</html>
