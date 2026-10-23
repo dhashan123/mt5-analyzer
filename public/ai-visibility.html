@@ -99,6 +99,7 @@
 
   <div class="note ok"><b>Monitoring — $99/month.</b> The same checks and the same prompts, run again
   every 30 days: what closed, what appeared, and whether the brand is named more or less often.
+  Each payment covers 30 days, and the page shows the paid-through date.
   <a href="#order" data-tier="monitor">Start monitoring</a>.</div>
 
   <h2 id="what">What you get</h2>
@@ -246,6 +247,9 @@
           (s.monitor_next_at ? '<p class="small" style="margin-top:10px">Next re-check: <b>' +
             new Date(s.monitor_next_at).toISOString().slice(0, 10) + '</b>' +
             (s.monitor_count ? ' · run ' + s.monitor_count : '') + '</p>' : '') +
+          (s.monitor_until ? '<p class="small">Paid through <b>' +
+            new Date(s.monitor_until).toISOString().slice(0, 10) + '</b>. Renew before then to keep the monthly checks going.</p>' : '') +
+          (s.status === 'monitor_expired' ? '<p class="small"><b>The paid monitoring period has ended.</b> Reply to the order email to renew.</p>' : '') +
           (s.report_summary ? '<p class="small" style="margin-top:10px">' + esc(s.report_summary) + '</p>' : '') +
           '<p class="small" style="margin-top:10px">The report is a self-contained HTML file. Open it in any browser, or print it to PDF.</p></div>';
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
