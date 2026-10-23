@@ -1,0 +1,15 @@
+# MT5 Analyzer
+
+> Independent MetaTrader 5 backtest report analysis, EA validation and trading-tool builds by Dhashan Naidoo.
+
+Key pages:
+- [Free MT5 report analyzer](https://mt5-analyzer.dhashan.workers.dev/): drop a Strategy Tester HTML report; metrics are computed in the browser and the file is never uploaded.
+- [Validation service](https://mt5-analyzer.dhashan.workers.dev/order): $29 health check, $99 validation, $249 full study. Fixed scope and a written verdict.
+- [Sample report](https://mt5-analyzer.dhashan.workers.dev/sample-report): a real failure, published in full with the out-of-sample numbers.
+- [Walk-forward validation](https://mt5-analyzer.dhashan.workers.dev/walk-forward-validation): how the rolling split and efficiency number work.
+- [AI search visibility audit](https://mt5-analyzer.dhashan.workers.dev/ai-visibility): samples ChatGPT and Google AI answers for buyer prompts and audits the technical layer behind them, from $49.
+- [About](https://mt5-analyzer.dhashan.workers.dev/about): who does the work and what is not promised.
+- [Contact](https://mt5-analyzer.dhashan.workers.dev/contact): what to send and the response time.
+- [Source handling](https://mt5-analyzer.dhashan.workers.dev/source-handling): NDA, storage and deletion.
+
+Contact: dhashannaidoo1234@gmail.com

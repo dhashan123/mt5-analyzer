@@ -60,7 +60,7 @@
         orders.forEach(function (o) {
           var canConfirm = !o.paid && (o.tx || o.status === 'payment_review');
           html += '<tr><td>' + esc(date(o.created_at)) + '</td><td><code>' + esc(o.id) + '</code></td><td>' +
-            esc(o.tier_label || o.tier) + '</td><td>$' + esc(o.usd) + '</td><td><b>' + esc(o.status) +
+            esc(o.tier_label || o.tier) + (o.domain ? '<div class="small">' + esc(o.domain) + '</div>' : '') + '</td><td>$' + esc(o.usd) + '</td><td><b>' + esc(o.status) +
             '</b></td><td>' + (o.paid ? 'yes' : 'no') + '</td><td>' + esc(o.email) + '</td><td class="small">' +
             esc(o.tx || '—') + '</td><td>' +
             (canConfirm ? '<button class="btn small" data-confirm="' + esc(o.id) + '">Confirm paid</button> ' : '') +
