@@ -28,6 +28,13 @@ background:var(--panel);transition:.15s;cursor:pointer}
 .drop:hover,.drop.hot{border-color:var(--accent);background:var(--panel2)}
 .drop b{color:var(--text)}
 .small{font-size:13px;color:var(--dim)}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:16px 0 12px}
+.tool{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border:1px solid var(--border);
+border-radius:10px;background:var(--panel);text-decoration:none;transition:.15s}
+.tool:hover{border-color:var(--accent);background:var(--panel2);transform:translateY(-1px)}
+.tool-name{color:var(--text);font-weight:600;font-size:15px}
+.tool-price{color:var(--accent);font-size:13px;font-weight:500}
+.tool-text{color:#c6ccd9;font-size:13.5px;line-height:1.55}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin:14px 0}
 .card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
 .card .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
@@ -105,7 +112,37 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
     <p>In MetaTrader 5: open the Strategy Tester, set it up, press <b>Run</b>, then right-click the
     <b>Results</b> grid → <b>Report</b> → <b>HTML</b>. It is written to your terminal's data folder.
     If you already have one, this page is the fastest way to read it.</p>
-    <h2>Privacy</h2>
+    <h2>The trading tools</h2>
+  <p>Three MetaTrader 5 utilities on the MQL5 Market, written by the same person who wrote this
+  page. Each one solves one specific problem and none of them places a trade for you.</p>
+  <div class="tools">
+    <a class="tool" href="https://www.mql5.com/en/market/product/202991">
+      <span class="tool-name">Open Risk Board</span>
+      <span class="tool-price">39 USD, or rent from 30</span>
+      <span class="tool-text">A board on your chart that answers what you have at risk right now: the
+      money in every open position, the total against your balance, the R-multiple on each trade, and
+      the size the next trade should be for the risk you chose. It reads the account and never
+      changes a position.</span>
+    </a>
+    <a class="tool" href="https://www.mql5.com/en/market/product/202883">
+      <span class="tool-name">Position Exit Manager</span>
+      <span class="tool-price">49 USD, or rent from 30</span>
+      <span class="tool-text">Puts a trailing stop and a break-even on every open position, moves them
+      as the trade moves, and can close a set of positions together when something has gone wrong
+      with the account rather than with one trade.</span>
+    </a>
+    <a class="tool" href="https://www.mql5.com/en/market/product/132674">
+      <span class="tool-name">Tp and Sl for all open trades</span>
+      <span class="tool-price">30 USD</span>
+      <span class="tool-text">Sets the take profit and the stop loss on every open trade at once, so
+      a position opened on one chart is not left without protection while you work on another. It
+      works on accounts that are hedging or netting.</span>
+    </a>
+  </div>
+  <p>There is a free demo of the Exit Manager, so you can see it on your own account before you
+  decide: <a href="https://www.mql5.com/en/market/product/202934">Position Exit Manager Panel</a>.</p>
+
+  <h2>Privacy</h2>
     <p>Nothing is uploaded. The file is read with the browser's File API and parsed locally in JavaScript.
     There is no server call for the analysis, so the report never leaves your machine.</p>
   </div>
@@ -188,7 +225,21 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
   }
 })();
 </script>
+
+  <div class="card" style="margin-top:28px">
+    <h2 style="margin-top:0">Also here: AI voiceover</h2>
+    <p>Narration for a course, an explainer or a product walkthrough, recorded in a
+    natural voice and delivered as an MP3. Order it yourself, pay, and the file
+    arrives on the page you already have open.</p>
+    <p><a class="btn" href="/voice">Order a voiceover</a></p>
+  </div>
+
+  <div class="card">
+    <h2 style="margin-top:0">Also here: the trading tools</h2>
+    <p>Three MetaTrader 5 utilities for the risk on a chart, the exit on a position
+    and the stop on every open trade. Each one does a single job, and none of them
+    places a trade for you.</p>
+    <p><a class="btn" href="/tools">See what they do</a></p>
+  </div>
 </body>
 </html>
-
-<!-- build marker: this file is deployed by .github/workflows/pages.yml -->

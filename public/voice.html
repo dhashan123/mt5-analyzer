@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI voiceover, recorded to order</title>
+<meta name="description" content="Text to speech for narration, explainers and course material, recorded in a natural voice and delivered as an MP3. Order it yourself, pay by card or crypto, get the file.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/voice">
+<style>
+:root{--bg:#0c0f14;--panel:#141922;--panel2:#1b212c;--border:#28303d;--text:#e8ebf2;--dim:#8b95a9;
+--good:#34c759;--bad:#ff5f56;--warn:#e3a008;--accent:#4c8dff;--accent2:#7b5cff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:19px;margin:34px 0 10px;color:var(--accent)}
+h3{font-size:14px;margin:18px 0 6px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+p{color:#c6ccd9}
+a{color:var(--accent)}
+.sub{color:var(--dim);margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin:14px 0}
+.card h2{margin-top:0}
+ul,ol{padding-left:20px;margin:8px 0 0;color:#c6ccd9;font-size:14px}
+li{margin:5px 0}
+form{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;margin:18px 0}
+label{display:block;font-size:13px;color:var(--dim);margin:12px 0 4px}
+input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);
+border-radius:7px;padding:10px 12px;font:inherit}
+textarea{resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btn{display:inline-block;background:var(--accent);color:#fff;border:0;border-radius:8px;
+padding:11px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:16px}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--dim);margin-left:8px}
+.btn:disabled{opacity:.55;cursor:default}
+.note{color:var(--dim);font-size:13.5px;margin:10px 0 0}
+.small{color:var(--dim);font-size:13px}
+.addr{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:11px 13px;
+font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;word-break:break-all;
+margin:6px 0 14px}
+.hidden{display:none}
+#statusline{font-size:17px;font-weight:600}
+#statusdetail{color:var(--dim)}
+audio{width:100%;margin-top:10px}
+#wordcount{margin:8px 0 0}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--border);color:var(--dim);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>AI voiceover, recorded to order</h1>
+  <p class="sub">Send the script, pick a voice, pay, and the recording arrives as an MP3.
+  No subscription, no account, nothing to install.</p>
+
+  <div class="card">
+    <h2>What you get</h2>
+    <ul>
+      <li>The script read in the voice you choose, as a clean MP3.</li>
+      <li>44.1 kHz at 192 kbps, mastered to a loudness of -20 dBFS with a peak
+      under -3. That is the standard Audible and ACX ask for, so a file from
+      here can go straight onto a platform without being re-mastered first.</li>
+      <li>The file as soon as it is recorded, usually within a few minutes of payment.</li>
+      <li>The words back unchanged. If a line reads wrong, say so and I re-record it at no charge.</li>
+      <li>The raw recording and a copy with the text, so you can re-cut it if you need to.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Where it is good for</h2>
+    <ul>
+      <li>Narration for a course, a product walkthrough, or an explainer video.</li>
+      <li>Voiceover where the pace has to be steady and the delivery has to be even.</li>
+      <li>Reading out a long document: a report, a set of instructions, a manual.</li>
+      <li>Audio for an app, a phone system, or a screen reader.</li>
+    </ul>
+    <p class="note">Where a human voice is the point &mdash; a performance, a documentary,
+    something with feeling in it &mdash; a synthetic voice is the wrong tool, and I would
+    rather say so than take the order and disappoint you.</p>
+  </div>
+
+  <h2>Order</h2>
+  <form id="order">
+    <label for="email">Where to send the file</label>
+    <input id="email" name="email" type="email" required placeholder="you@example.com">
+
+    <label for="script">The script</label>
+    <textarea id="script" name="script" required rows="9" placeholder="Paste the words here.&#10;&#10;Mark a line to be read differently with [pause] or [slow] between square brackets, and a line for a speaker change with [speaker: name]."></textarea>
+
+    <label for="voice">The voice</label>
+    <select id="voice" name="voice">
+      <option value="alder">Alder &mdash; a calm, even male voice</option>
+    </select>
+    <p class="note">One voice at the moment. More will be added as they are
+    recorded properly rather than named before they exist.</p>
+
+    <label for="tier">How much</label>
+    <select id="tier" name="tier">
+      <option value="clip">One clip, up to 60 words &mdash; 9.00 USD</option>
+      <option value="pack">Three clips, up to 60 words each &mdash; 24.00 USD</option>
+      <option value="narration">Narration, up to 500 words &mdash; 59.00 USD</option>
+    </select>
+    <p class="note" id="wordcount">60 words</p>
+
+    <button class="btn" type="submit" id="submit">Create the order</button>
+  </form>
+
+  <div id="result" class="hidden">
+    <h2>Pay</h2>
+    <p>Send <strong id="amount"></strong> to the address below, then paste the transaction
+    reference here. The payment is checked, and the recording starts as soon as
+    it is confirmed, usually within the hour.</p>
+
+    <h3>TRON (T&hellip;) &mdash; USDT-TRC20 recommended</h3>
+    <div class="addr" id="addr-tron">&hellip;</div>
+    <h3>Ethereum (0x&hellip;) &mdash; USDC or ETH</h3>
+    <div class="addr" id="addr-eth">&hellip;</div>
+    <h3>Bitcoin</h3>
+    <div class="addr" id="addr-btc">&hellip;</div>
+
+    <p class="note">The amount above is in cents of a dollar, and it is unique to this order,
+    so your payment is matched to it on its own. Please send that amount exactly.</p>
+    <p class="note"><b>Before you send.</b> Crypto payments are final and cannot be reversed.
+    Send only the network and asset shown above &mdash; USDT sent on the wrong network is
+    unrecoverable.</p>
+
+    <label for="txin">Transaction reference</label>
+    <input id="txin" placeholder="the reference from your payment">
+    <button class="btn" id="txbtn" type="button">I have paid</button>
+  </div>
+
+  <div id="status" class="hidden">
+    <h2>Your order</h2>
+    <p id="statusline">Waiting for payment.</p>
+    <p id="statusdetail"></p>
+    <div id="audio" class="hidden">
+      <audio id="player" controls></audio>
+      <p><a id="audiourl" download>Download the MP3</a></p>
+    </div>
+    <p class="note" id="orderid"></p>
+  </div>
+
+  <h2>How this works</h2>
+  <ol>
+    <li>You paste the script and choose a voice.</li>
+    <li>You pay. The page stays open and polls, so the file appears by itself.</li>
+    <li>You get the MP3. If a line is wrong, you say so and I re-record it at no charge.</li>
+  </ol>
+  <p class="note">The recording is made by a neural voice model running on the machine that
+  serves this page. There is no third party in between, and no account is needed.</p>
+
+  <footer>
+    <p>Dhashan Naidoo. A question about an order: write to the address the recording is sent
+    from. The order reference is shown above, and it is the first thing to put in the message.</p>
+  </footer>
+</div>
+
+<script src="./config.js"></script>
+<script>
+(function () {
+  var CFG = window.MTB5_ORDER || {};
+  var BASE = 'https://mt5-analyzer.dhashan.workers.dev';
+  var LIMITS = { clip: 60, pack: 60, narration: 500 };
+
+  function set(id, v) { var e = document.getElementById(id); if (e && v) e.textContent = v; }
+  set('addr-tron', CFG.tron);
+  set('addr-eth', CFG.eth);
+  set('addr-btc', CFG.btc);
+
+  var form = document.getElementById('order');
+  var result = document.getElementById('result');
+  var statusBox = document.getElementById('status');
+  var tierSel = document.getElementById('tier');
+  var scriptBox = document.getElementById('script');
+  var counter = document.getElementById('wordcount');
+  var submit = document.getElementById('submit');
+  var pollTimer = null;
+  var currentId = null;
+
+  function words() {
+    return (scriptBox.value || '').trim().split(/\s+/).filter(Boolean).length;
+  }
+
+  function refreshCount() {
+    var limit = LIMITS[tierSel.value] || 60;
+    var n = words();
+    counter.textContent = n + ' words' + (n > limit ? ' - over the ' + limit + ' this tier covers' : ' of ' + limit);
+    counter.style.color = n > limit ? 'var(--bad)' : 'var(--dim)';
+  }
+  tierSel.addEventListener('change', refreshCount);
+  scriptBox.addEventListener('input', refreshCount);
+  refreshCount();
+
+  function showStatus(o) {
+    statusBox.classList.remove('hidden');
+    var line = document.getElementById('statusline');
+    var detail = document.getElementById('statusdetail');
+    if (o.status === 'delivered') {
+      line.textContent = 'Your recording is ready.';
+      detail.textContent = 'It is below, and the file can be downloaded.';
+      document.getElementById('audio').classList.remove('hidden');
+      document.getElementById('player').src = o.audio_url;
+      document.getElementById('audiourl').href = o.audio_url;
+      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    } else if (o.paid) {
+      line.textContent = 'Payment confirmed. Recording now.';
+      detail.textContent = 'This page updates by itself. It usually takes a couple of minutes.';
+    } else if (o.status === 'payment_review') {
+      line.textContent = 'Reference received. Checking the payment.';
+      detail.textContent = 'The recording starts as soon as the payment is confirmed. ' +
+        'This page updates by itself.';
+    } else {
+      line.textContent = 'Waiting for payment.';
+      detail.textContent = 'Send the amount shown, then paste the reference in.';
+    }
+    document.getElementById('orderid').textContent = 'Order reference: ' + o.id;
+  }
+
+  function poll(id) {
+    fetch(BASE + '/voice-order/' + id).then(function (r) { return r.json(); })
+      .then(showStatus)
+      .catch(function () { /* the page will try again */ });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var limit = LIMITS[tierSel.value] || 60;
+    if (words() > limit) {
+      counter.textContent = 'The script is over the ' + limit + ' words this tier covers. ' +
+        'Choose a larger tier, or shorten it.';
+      counter.style.color = 'var(--bad)';
+      return;
+    }
+    submit.disabled = true;
+    submit.textContent = 'Creating the order...';
+    fetch(BASE + '/voice-order', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        script: document.getElementById('script').value,
+        voice: document.getElementById('voice').value,
+        tier: tierSel.value
+      })
+    }).then(function (r) { return r.json(); }).then(function (o) {
+      submit.disabled = false;
+      submit.textContent = 'Create the order';
+      if (!o || !o.id) { alert('The order could not be created. Please try again.'); return; }
+      currentId = o.id;
+      document.getElementById('amount').textContent = o.amount_display;
+      result.classList.remove('hidden');
+      statusBox.classList.remove('hidden');
+      result.scrollIntoView({ behavior: 'smooth' });
+      poll(o.id);
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(function () { poll(currentId); }, 6000);
+    }).catch(function () {
+      submit.disabled = false;
+      submit.textContent = 'Create the order';
+      alert('The order could not be created. Please try again.');
+    });
+  });
+
+  document.getElementById('txbtn').addEventListener('click', function () {
+    if (!currentId) return;
+    var tx = document.getElementById('txin').value.trim();
+    if (!tx) { alert('Please paste the transaction reference first.'); return; }
+    fetch(BASE + '/voice-order/' + currentId, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ tx: tx })
+    }).then(function () { poll(currentId); });
+  });
+})();
+</script>
+</body>
+</html>

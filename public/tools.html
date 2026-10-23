@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MetaTrader 5 tools — Open Risk Board, Position Exit Manager, Tp and Sl</title>
+<meta name="description" content="Three MetaTrader 5 utilities: a board that shows the money at risk in every open position, a panel for managing exits on every trade, and a tool that sets the stop and the target on all of them at once. Buy them on the MQL5 Market, or try the free demo first.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/tools">
+<style>
+:root{--bg:#0c0f14;--panel:#141922;--panel2:#1b212c;--border:#28303d;--text:#e8ebf2;
+--dim:#8b95a9;--accent:#4c8dff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:36px 20px 80px}
+h1{font-size:28px;margin:0 0 8px;letter-spacing:-.02em}
+h2{font-size:18px;margin:38px 0 12px;color:var(--accent);letter-spacing:-.01em}
+h3{font-size:15px;margin:22px 0 8px}
+p{color:#c6ccd9}
+a{color:var(--accent)}
+.lede{color:var(--dim);font-size:16px;margin:0 0 30px;max-width:64ch}
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14.5px}
+th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);font-weight:600}
+td:first-child{font-weight:600}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0 12px}
+.tool{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border:1px solid var(--border);
+border-radius:10px;background:var(--panel);text-decoration:none;transition:.15s}
+.tool:hover{border-color:var(--accent);background:var(--panel2);transform:translateY(-1px)}
+.tool-name{color:var(--text);font-weight:600;font-size:15px}
+.tool-price{color:var(--accent);font-size:13px;font-weight:500}
+.tool-text{color:#c6ccd9;font-size:13.5px;line-height:1.55}
+ul{padding-left:22px}
+li{margin:6px 0;color:#c6ccd9}
+.note{color:var(--dim);font-size:13.5px}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);color:var(--dim);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>MetaTrader 5 tools</h1>
+  <p class="lede">Three utilities for MetaTrader 5, by the same person. Each one does a single job
+  on the chart. None of them places a trade for you.</p>
+
+  <div class="tools">
+    <a class="tool" href="https://www.mql5.com/en/market/product/202991">
+      <span class="tool-name">Open Risk Board</span>
+      <span class="tool-price">39 USD, or rent from 30</span>
+      <span class="tool-text">Shows the money at risk in every open position, the total against
+      your balance, and the size the next trade should be for the risk you chose. It reads the
+      account and never changes a position.</span>
+    </a>
+    <a class="tool" href="https://www.mql5.com/en/market/product/202883">
+      <span class="tool-name">Position Exit Manager</span>
+      <span class="tool-price">49 USD, or rent from 30</span>
+      <span class="tool-text">A panel over every open position with a trailing stop, a break-even
+      and a manual exit, and a way to close a set of positions together when the account is the
+      problem rather than one trade.</span>
+    </a>
+    <a class="tool" href="https://www.mql5.com/en/market/product/132674">
+      <span class="tool-name">Tp and Sl for all open trades</span>
+      <span class="tool-price">30 USD</span>
+      <span class="tool-text">Sets the take profit and the stop loss on every open trade at once,
+      so a position opened on one chart is not left unprotected while you work on another.</span>
+    </a>
+  </div>
+
+  <p>There is a <a href="https://www.mql5.com/en/market/product/202934">free demo</a> of the Exit
+  Manager, so you can see it on your own account before you buy anything.</p>
+
+  <h2>The Risk Board</h2>
+  <p>The question it answers is one the chart does not: how much can this account lose from here,
+  and how big should the next trade be?</p>
+  <p>It draws a table of every open position with the distance to its stop loss, the money that
+  distance represents, and the R-multiple of the trade so far, so a position that has already run
+  three times its risk looks different from one that has not. Under the table it shows the total at
+  risk against the balance, and the lot size that would put a chosen percentage of the balance at
+  risk at the current stop distance.</p>
+  <p>It reads the account and it never changes a position. It has no order button and it sends
+  nothing.</p>
+
+  <h2>The Exit Manager</h2>
+  <p>Every open position gets a row: the ticket, the type, the lot, the open price, the current
+  price, the profit, and the stop loss and take profit that are on it. You can move the stop, set a
+  break-even, set a trailing stop, close one position, or close a set of them together.</p>
+  <p>The reason it exists is that a position opened on one chart and then worked on from another is
+  a position nobody is watching. The Exit Manager puts them all in one place, so the account is
+  visible at a glance and a single action can be taken across it.</p>
+
+  <h2>Tp and Sl for all open trades</h2>
+  <p>Sets the take profit and the stop loss on every open trade at once, from one place, rather
+  than one chart at a time. It works on hedging and on netting accounts, it can apply the same
+  levels to everything or leave the levels alone and only show them, and it can refuse to move a
+  stop that would put the trade into a loss.</p>
+
+  <h2>What none of them do</h2>
+  <p>None of these is a strategy, and none of them will tell you that a trade is a good one. They
+  are tools for managing risk and exits on positions you have already opened, and they do not open
+  positions.</p>
+  <p class="note">No claim of profitability is made anywhere on this site or in any of these
+  products. Any number a backtest shows is a historical simulation with modelled execution, not a
+  forecast.</p>
+
+  <h2>Elsewhere</h2>
+  <ul>
+    <li><a href="https://mt5-analyzer.dhashan.workers.dev/">MT5 Backtest Report Analyzer</a> —
+      drop a Strategy Tester report in and read the numbers that matter. It runs in the browser and
+      the file is never uploaded.</li>
+    <li><a href="https://opencut.dhashan.workers.dev/voiceover">AI voiceover</a> — narration
+      recorded to order and delivered as an MP3.</li>
+    <li><a href="https://opencut.dhashan.workers.dev/">OpenCut</a> — a video editor that runs in the
+      browser.</li>
+  </ul>
+
+  <footer>
+    Dhashan Naidoo. The MQL5 products are sold on the MQL5 Market by MetaQuotes; this page is not
+    affiliated with them. The source of the tools behind this page is on
+    <a href="https://github.com/dhashan123/mt5batch">GitHub</a>.
+  </footer>
+</div>
+</body>
+</html>

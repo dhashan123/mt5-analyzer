@@ -11,7 +11,12 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dhashan123.github.io/mt5batch/</loc>
+    <loc>https://mt5-analyzer.dhashan.workers.dev/voice</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mt5-analyzer.dhashan.workers.dev/tools</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
