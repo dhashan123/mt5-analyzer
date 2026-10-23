@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MQL5 EA audit — find the bug before it costs you</title>
+<meta name="description" content="A fixed-scope audit of a MetaTrader 5 Expert Advisor: lot sizing, stop and target handling, magic numbers, session time, fills, and the difference between the rules and the code.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/mql5-ea-audit">
+<meta property="og:title" content="MQL5 EA audit — find the bug before it costs you">
+<meta property="og:description" content="A fixed-scope audit of an MT5 Expert Advisor, with a written report, a patched build, and a before/after test.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="./growth.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "MQL5 Expert Advisor audit and repair",
+  "provider": {"@type": "Person", "name": "Dhashan Naidoo"},
+  "serviceType": "MetaTrader 5 code audit and repair",
+  "areaServed": "Worldwide",
+  "description": "A fixed-scope audit of an MT5 Expert Advisor: rule-by-rule code review, bug report, patched build, and a before/after test.",
+  "offers": {"@type": "Offer", "price": "199", "priceCurrency": "USD", "description": "Starting price for one EA audit."}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>Your EA does what the code says, not what you meant.</h1>
+  <p class="lede">An audit reads the code against the stated rules, finds the places where they differ, and
+  shows you the difference in a test. It is not a rewrite and it is not a profit forecast.</p>
+
+  <h2>What an audit covers</h2>
+  <ul>
+    <li><b>Lot sizing.</b> Risk percentage against stop distance, tick value vs point value, contract size, and the rounding that silently doubles or halves the risk.</li>
+    <li><b>Stops and targets.</b> Whether the stop is on the position or only in the code, whether it survives a restart, and what happens on a gap.</li>
+    <li><b>Magic numbers and position selection.</b> Whether the EA can see another EA’s trades, and whether it closes the right one.</li>
+    <li><b>Session and time.</b> Broker server time vs your time, daylight saving, Friday close, and the news filter that fires an hour late.</li>
+    <li><b>Fills and slippage.</b> Market vs limit, partial fills, requotes, and the assumption that an order fills at the price on the chart.</li>
+    <li><b>History and backtest assumptions.</b> Modelling mode, spread, commission, swap, and the difference between “every tick” and real ticks.</li>
+    <li><b>Failure paths.</b> What happens when the terminal disconnects, the order is rejected, the array is short, or the indicator handle is invalid.</li>
+  </ul>
+
+  <h2>What you get</h2>
+  <table>
+    <tr><th>Deliverable</th><th>Detail</th></tr>
+    <tr><td>Written report</td><td>Each finding: the line, what the code does, what the rule says, and the impact. Severity-ranked.</td></tr>
+    <tr><td>Patched build</td><td>The fixes that are unambiguous, in a separate file. You keep the original.</td></tr>
+    <tr><td>Before / after test</td><td>The same configuration on both builds, with the difference explained.</td></tr>
+    <tr><td>Handover call</td><td>Twenty minutes to walk through the findings and decide what to fix next.</td></tr>
+  </table>
+  <p><b>$199</b> for one EA, three to five days, after I have seen the source. If the audit finds nothing
+  material, I say so and you keep the report — I would rather lose the upsell than invent a bug.</p>
+
+  <h2>What it is not</h2>
+  <ul>
+    <li>It is not a guarantee of profit, and it is not a strategy review in the “make it better” sense.</li>
+    <li>It is not a rewrite. If the architecture is wrong, the report says that and quotes a rebuild separately.</li>
+    <li>It is not a substitute for a walk-forward. A bug-free EA can still have no edge; that is a
+    <a href="./order">validation</a>, and it is a different question.</li>
+  </ul>
+
+  <h2>How it runs</h2>
+  <ol>
+    <li>Send the <code>.mq5</code> source (with any <code>.mqh</code>), the rules, and one report that shows the behaviour you are worried about.</li>
+    <li>I read it and confirm the scope, price and date. If it is a two-hour fix, I tell you that instead of selling an audit.</li>
+    <li>You get the report, the patched build and the before/after test.</li>
+  </ol>
+
+  <div class="note"><b>Source handling.</b> NDA available before upload, encrypted at rest, one machine,
+  deleted 30 days after delivery. See <a href="./source-handling">how your code is handled</a>.</div>
+
+  <p><a class="btn" href="mailto:dhashannaidoo1234@gmail.com?subject=EA%20audit">Send the EA for an audit</a>
+  <a class="btn ghost" href="./services">See all services</a></p>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./order">Order</a> · <a href="./source-handling">Source handling</a> ·
+    <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+<script src="./track.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Walk-forward validation for EAs — what it is, and the number that matters</title>
+<meta name="description" content="A plain explanation of walk-forward validation for MetaTrader 5 EAs: the rolling train/test split, the efficiency number, why in-sample profit lies, and what a report should contain.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/walk-forward-validation">
+<meta property="og:title" content="Walk-forward validation for EAs — what it is, and the number that matters">
+<meta property="og:description" content="The rolling train/test split, the efficiency number, and why an in-sample equity curve is not evidence.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="./growth.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Walk-forward validation for EAs: what it is, and the number that matters",
+  "author": {"@type": "Person", "name": "Dhashan Naidoo"},
+  "publisher": {"@type": "Person", "name": "Dhashan Naidoo"},
+  "datePublished": "2026-10-24",
+  "mainEntityOfPage": "https://mt5-analyzer.dhashan.workers.dev/walk-forward-validation"
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>Walk-forward validation, explained with a failure.</h1>
+  <p class="lede">A backtest tells you what happened on data you chose. A walk-forward tells you what
+  happened on data the parameters never saw. Only one of those is evidence.</p>
+
+  <h2>The problem with one run</h2>
+  <p>A Strategy Tester report is the result of one run, on one symbol, over one date range, with one set
+  of parameters. If those parameters were chosen by looking at the result — or by trying several until the
+  curve looked good — the report is a description of the search, not a property of the strategy.</p>
+  <p>This is not a subtle statistical point. It is the most common way a backtest becomes a curve fit:
+  rank a parameter grid by net profit, pick the top cell, and present it as the strategy. The top cell is,
+  by construction, the one that fitted that sample best. The question is whether it still works on the next
+  sample.</p>
+
+  <h2>What walk-forward does</h2>
+  <ol>
+    <li>Split the sample into consecutive windows: a training window and the test window immediately after it.</li>
+    <li>On the training window, run a parameter sweep and pick the best cell by a <b>declared</b> objective — expectancy, not net profit.</li>
+    <li>Take those parameters and run them, unchanged, on the test window the selection never saw.</li>
+    <li>Roll forward and repeat. Stitch the out-of-sample results into one curve.</li>
+  </ol>
+  <p>The number that matters is <b>walk-forward efficiency</b>: out-of-sample profit divided by in-sample
+  profit for the same parameters. Near 1.0 means the selection generalised. Near 0 means the in-sample
+  result was mostly curve fitting. Negative means the selection actively hurt.</p>
+
+  <h2>An honest example</h2>
+  <p>I ran this on a clean-room sample EA, XAUUSDz M15, real ticks, 2023.07.01–2024.12.31, seven rolling
+  folds of 120-day training and 60-day testing. Every fold made money in sample. The out-of-sample result
+  was negative on five of seven.</p>
+  <table>
+    <tr><th>In-sample net</th><th>Out-of-sample net</th><th>Efficiency</th><th>Profitable OOS folds</th></tr>
+    <tr><td>+8,258.81</td><td>−3,398.03</td><td>−0.41</td><td>2 / 7</td></tr>
+  </table>
+  <p>The full report is public, including the fold table: <a href="./sample-report">sample report</a>. A
+  vendor who only shows you the in-sample number is showing you the search, not the result.</p>
+
+  <h2>What a report should contain</h2>
+  <ul>
+    <li>Every run pinned to one configuration: symbol, timeframe, spread modelling, dates, deposit, leverage, currency.</li>
+    <li>The sweep table, ranked by the declared objective, with the failures left visible.</li>
+    <li>Each fold: the selected parameters, the in-sample result, and the out-of-sample result side by side.</li>
+    <li>The efficiency number, the profitable-fold ratio, and a plain reading of both.</li>
+    <li>Cost stress at 2× and 3× commission and swap.</li>
+    <li>The worst losing streak, where it happened, and the equity curve rebuilt from the deals.</li>
+    <li>The raw terminal report and the exact commands to reproduce every run.</li>
+  </ul>
+
+  <h2>What it cannot tell you</h2>
+  <p>It cannot tell you the future. It cannot tell you that a strategy will make money. It can tell you
+  whether the evidence you have is evidence, or a curve fitted to the past. That is a narrower claim, and
+  it is the only one that survives contact with a live account.</p>
+
+  <div class="note"><b>No profit claims.</b> Every report is a historical simulation with modelled
+  execution. The deliverable is measurement, including a negative result. If the walk-forward says the edge
+  did not survive, the report says so.</div>
+
+  <h2>Get your EA tested</h2>
+  <p>The health check is $29 and takes 24 hours. The full validation — sweep plus walk-forward — is $99
+  and takes four days. If I cannot reproduce your result, you do not pay.</p>
+  <p><a class="btn" href="./order">Order a validation</a>
+  <a class="btn ghost" href="./sample-report">Read the sample first</a></p>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./order">Order</a> · <a href="./source-handling">Source handling</a> ·
+    <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+<script src="./track.js"></script>
+</body>
+</html>

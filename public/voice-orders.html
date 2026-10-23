@@ -84,8 +84,7 @@ async function load() {
       const ref = o.tx ? '<div class="meta">reference: ' + escapeHtml(o.tx) + '</div>' : "";
       const canConfirm = !o.paid && (status === "payment_review" || status === "awaiting_payment");
       const confirm = canConfirm
-        ? '<button class="confirm" onclick="confirmPaid('' + escapeHtml(o.id) + '')">' +
-          'Confirm paid</button>'
+        ? '<button class="confirm" data-id="' + escapeHtml(o.id) + '">Confirm paid</button>'
         : "";
       return '<div class="card"><div class="row">' +
         '<div><div class="id">' + escapeHtml(o.id) + '</div>' +
@@ -97,6 +96,9 @@ async function load() {
         confirm + '</div>' +
         '</div></div>';
     }).join("");
+    list.querySelectorAll('button.confirm').forEach(b => {
+      b.addEventListener('click', () => confirmPaid(b.getAttribute('data-id')));
+    });
   } catch (e) {
     list.innerHTML = "";
     err.textContent = "could not load the orders: " + e.message;

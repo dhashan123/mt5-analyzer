@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sierra Chart to Pine Script, NinjaScript, MQL4/MQL5 — what transfers</title>
+<meta name="description" content="Convert Sierra Chart ACSIL studies and chartbooks to Pine Script, NinjaScript, MQL4 or MQL5. A behaviour map first, then a build, with side-by-side testing on the same data.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/sierra-chart-to-pine">
+<meta property="og:title" content="Sierra Chart to Pine Script, NinjaScript, MQL4/MQL5">
+<meta property="og:description" content="A behaviour map, a fixed-scope build, and a side-by-side test — not a syntax translation.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="./growth.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Sierra Chart and NinjaTrader platform conversion",
+  "provider": {"@type": "Person", "name": "Dhashan Naidoo"},
+  "serviceType": "Trading platform study and indicator conversion",
+  "areaServed": "Worldwide",
+  "description": "Conversion of Sierra Chart ACSIL C++ studies, chartbooks and NinjaTrader indicators to Pine Script, NinjaScript, MQL4 or MQL5, with a behaviour map and a side-by-side test."
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>Sierra Chart to Pine, NinjaScript or MQL5 — the behaviour is the work.</h1>
+  <p class="lede">Translating the syntax is a day. Reproducing the behaviour is the job. I map what has to
+  transfer, name what cannot, and test the two platforms on the same data before calling it done.</p>
+
+  <h2>What a conversion actually involves</h2>
+  <p>Sierra Chart studies are ACSIL C++ running inside a chartbook. Pine Script is a vectorised bar
+  language. NinjaScript is C# on a different event model. MQL4/MQL5 is an EA framework with its own
+  execution and history model. The same words — “bar close”, “stop”, “session”, “volume” — mean different
+  things in each.</p>
+  <p>The failures are rarely syntax errors. They are:</p>
+  <ul>
+    <li><b>Bar-close assumptions.</b> A study calculated on the close of a bar cannot be reproduced on a platform that evaluates intrabar by default, unless the condition is pinned.</li>
+    <li><b>Intrabar stop handling.</b> Whether a stop fills at the level, at the next tick, or at the bar open is a modelling choice with a real P&amp;L difference.</li>
+    <li><b>Session and exchange time.</b> Sierra Chart’s session settings, daylight saving and exchange time are not the same as the broker’s server time.</li>
+    <li><b>Volume and delta.</b> Ask/bid volume, cumulative delta and volume-at-price are built from different data on different platforms. Some cannot be reproduced exactly.</li>
+    <li><b>Scaling and auto-fit.</b> A chart that looks identical can be plotting a different scale, which changes every visual comparison.</li>
+  </ul>
+
+  <h2>The first deliverable is a behaviour map</h2>
+  <p>Before writing code, I produce a numbered list: every input, every calculation, every alert, and every
+  place where the target platform does not have the same primitive. Each item is marked <b>exact</b>,
+  <b>approximate</b>, or <b>not reproducible</b>. You see that list before the build, so there is no
+  surprise at handover.</p>
+  <p>If all you have is a <code>.Cht</code> chartbook, that is a configuration — not the study source. I can
+  read the configuration and reconstruct the visible logic, but the first step is still the map, and the
+  quote depends on what the map finds.</p>
+
+  <h2>Platforms</h2>
+  <table>
+    <tr><th>From</th><th>To</th><th>Typical scope</th><th>From</th></tr>
+    <tr><td>Sierra Chart ACSIL / C++</td><td>Pine Script v5/v6</td><td>Study, alerts, chart visuals</td><td>$299</td></tr>
+    <tr><td>Sierra Chart ACSIL / C++</td><td>NinjaScript (C#)</td><td>Indicator or strategy, with a test</td><td>$399</td></tr>
+    <tr><td>Sierra Chart ACSIL / C++</td><td>MQL4 / MQL5</td><td>Indicator or EA, with a backtest</td><td>$399</td></tr>
+    <tr><td>NinjaTrader NinjaScript</td><td>Pine / MQL5</td><td>Indicator or strategy</td><td>$299</td></tr>
+    <tr><td>Pine Script</td><td>MQL4 / MQL5</td><td>Indicator or EA</td><td>$249</td></tr>
+  </table>
+  <p class="small">Prices are starting points for one study. A full chartbook with several studies, or a
+  strategy with execution logic, is quoted after the map. The <b>$99 assessment</b> is credited against the
+  build if you go ahead.</p>
+
+  <h2>How it runs</h2>
+  <table>
+    <tr><th>Step</th><th>What you get</th></tr>
+    <tr><td>1. Send the source</td><td>The <code>.cpp</code>/<code>.h</code> study, the <code>.Cht</code>, a screenshot, or a recording of the behaviour. A written description of the rules is useful too.</td></tr>
+    <tr><td>2. Map</td><td>A numbered behaviour map with exact / approximate / not reproducible, a price, and a date. This is the assessment.</td></tr>
+    <tr><td>3. Build</td><td>The target code, milestone by milestone. You see a compiling version before the final payment.</td></tr>
+    <tr><td>4. Test</td><td>The same symbol, dates and data on both platforms, with a side-by-side comparison and an explanation of every difference.</td></tr>
+    <tr><td>5. Handover</td><td>Source, compiled build, test report, and a runbook. Fourteen days of support for defects in what I wrote.</td></tr>
+  </table>
+
+  <h2>What I will not do</h2>
+  <ul>
+    <li>Claim two platforms are identical when the data model makes that impossible.</li>
+    <li>Copy a competitor’s paid study or a vendor’s protected source.</li>
+    <li>Tune the strategy to make the comparison look better.</li>
+    <li>Promise that the converted strategy is profitable. The deliverable is behaviour and a test.</li>
+  </ul>
+
+  <h2>Start with the map</h2>
+  <p>Email <a href="mailto:dhashannaidoo1234@gmail.com?subject=Sierra%20Chart%20conversion">dhashannaidoo1234@gmail.com</a>
+  with the source or a link, the target platform, and what you need it to do. I answer within one working
+  day (UTC+2).</p>
+  <p><a class="btn" href="mailto:dhashannaidoo1234@gmail.com?subject=Sierra%20Chart%20conversion">Send the study</a>
+  <a class="btn ghost" href="./services">See all services</a></p>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./order">Order</a> · <a href="./source-handling">Source handling</a> ·
+    <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+<script src="./track.js"></script>
+</body>
+</html>
