@@ -16,7 +16,8 @@
  {"@type":"Service","name":"AI search visibility audit for trading brands","provider":{"@type":"Organization","name":"MT5 Analyzer","url":"https://mt5-analyzer.dhashan.workers.dev/"},"areaServed":"Worldwide","serviceType":"AI search / AEO audit","description":"Samples ChatGPT and Google AI answers for buyer prompts, audits the technical layer behind them, and ranks the fixes.","offers":[
    {"@type":"Offer","name":"AI Search Readiness Check","price":"49","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
    {"@type":"Offer","name":"AI Search Readiness Audit","price":"199","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
-   {"@type":"Offer","name":"AI Visibility Study","price":"499","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"}
+   {"@type":"Offer","name":"AI Visibility Study","price":"499","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
+   {"@type":"Offer","name":"AI Search Fix Pack","price":"599","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"}
  ]},
  {"@type":"FAQPage","mainEntity":[
    {"@type":"Question","name":"Do you guarantee an AI citation?","acceptedAnswer":{"@type":"Answer","text":"No. AI answers are probabilistic. The audit measures the inputs and the current answers, then ranks the work."}},
@@ -89,6 +90,12 @@
     </div>
   </div>
 
+  <div class="note ok"><b>Fix Pack — $599.</b> The audit, plus the files that fix it:
+  ready-to-paste schema for each page, <code>llms.txt</code> and <code>llms-full.txt</code>, FAQ
+  blocks built from your own text, an internal-link plan, a regenerated sitemap, and a
+  prioritised checklist. Delivered as a zip and one self-contained page. Every answer is
+  lifted from your pages — nothing is invented. <a href="#order" data-tier="fix">Order the Fix Pack</a>.</div>
+
   <div class="note ok"><b>Monitoring — $99/month.</b> A monthly re-sample of the same prompts, the technical
   score, and a short movement report. Cancel anytime. <a href="mailto:dhashannaidoo1234@gmail.com?subject=AI%20visibility%20monitoring">Start by email</a>.</div>
 
@@ -146,6 +153,7 @@
           <option value="check">Readiness Check — $49</option>
           <option value="audit" selected>Audit — $199</option>
           <option value="full">Visibility Study — $499</option>
+          <option value="fix">Fix Pack — $599</option>
         </select>
       </div>
     </div>
@@ -230,6 +238,8 @@
         result.innerHTML = '<div class="note ok"><b>Your audit is ready.</b><br>Order <code>' + esc(s.id) +
           '</code> — ' + esc(s.tier || '') + '.<br><br><a class="btn" href="' + API + '/report/' +
           encodeURIComponent(s.id) + '">Download the audit report</a>' +
+          (s.pack_available ? '<a class="btn ghost" style="margin-left:8px" href="' + API + '/pack/' +
+            encodeURIComponent(s.id) + '">Download the fix pack (.zip)</a>' : '') +
           (s.report_summary ? '<p class="small" style="margin-top:10px">' + esc(s.report_summary) + '</p>' : '') +
           '<p class="small" style="margin-top:10px">The report is a self-contained HTML file. Open it in any browser, or print it to PDF.</p></div>';
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
