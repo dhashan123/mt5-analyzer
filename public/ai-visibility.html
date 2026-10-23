@@ -17,7 +17,8 @@
    {"@type":"Offer","name":"AI Search Readiness Check","price":"49","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
    {"@type":"Offer","name":"AI Search Readiness Audit","price":"199","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
    {"@type":"Offer","name":"AI Visibility Study","price":"499","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
-   {"@type":"Offer","name":"AI Search Fix Pack","price":"599","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"}
+   {"@type":"Offer","name":"AI Search Fix Pack","price":"599","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"},
+   {"@type":"Offer","name":"AI Search Monitoring (monthly)","price":"99","priceCurrency":"USD","url":"https://mt5-analyzer.dhashan.workers.dev/ai-visibility#order"}
  ]},
  {"@type":"FAQPage","mainEntity":[
    {"@type":"Question","name":"Do you guarantee an AI citation?","acceptedAnswer":{"@type":"Answer","text":"No. AI answers are probabilistic. The audit measures the inputs and the current answers, then ranks the work."}},
@@ -96,8 +97,9 @@
   prioritised checklist. Delivered as a zip and one self-contained page. Every answer is
   lifted from your pages — nothing is invented. <a href="#order" data-tier="fix">Order the Fix Pack</a>.</div>
 
-  <div class="note ok"><b>Monitoring — $99/month.</b> A monthly re-sample of the same prompts, the technical
-  score, and a short movement report. Cancel anytime. <a href="mailto:dhashannaidoo1234@gmail.com?subject=AI%20visibility%20monitoring">Start by email</a>.</div>
+  <div class="note ok"><b>Monitoring — $99/month.</b> The same checks and the same prompts, run again
+  every 30 days: what closed, what appeared, and whether the brand is named more or less often.
+  <a href="#order" data-tier="monitor">Start monitoring</a>.</div>
 
   <h2 id="what">What you get</h2>
   <table>
@@ -154,6 +156,7 @@
           <option value="audit" selected>Audit — $199</option>
           <option value="full">Visibility Study — $499</option>
           <option value="fix">Fix Pack — $599</option>
+          <option value="monitor">Monitoring — $99/month</option>
         </select>
       </div>
     </div>
@@ -240,6 +243,9 @@
           encodeURIComponent(s.id) + '">Download the audit report</a>' +
           (s.pack_available ? '<a class="btn ghost" style="margin-left:8px" href="' + API + '/pack/' +
             encodeURIComponent(s.id) + '">Download the fix pack (.zip)</a>' : '') +
+          (s.monitor_next_at ? '<p class="small" style="margin-top:10px">Next re-check: <b>' +
+            new Date(s.monitor_next_at).toISOString().slice(0, 10) + '</b>' +
+            (s.monitor_count ? ' · run ' + s.monitor_count : '') + '</p>' : '') +
           (s.report_summary ? '<p class="small" style="margin-top:10px">' + esc(s.report_summary) + '</p>' : '') +
           '<p class="small" style="margin-top:10px">The report is a self-contained HTML file. Open it in any browser, or print it to PDF.</p></div>';
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
