@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How your EA source is handled — NDA, storage, deletion</title>
+<meta name="description" content="What happens to your EA source when you order a validation: where it is stored, who can open it, how long it is kept, and the NDA you can sign first.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/source-handling">
+<link rel="stylesheet" href="./growth.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>Your EA is your property. Here is exactly what happens to it.</h1>
+  <p class="lede">Most buyers are asked to upload source code to a stranger and hope. This page is the
+  short version of the handling policy. If you want it in writing before you send anything, ask for the
+  NDA — or send yours.</p>
+
+  <h2>Where it goes</h2>
+  <p>The file is stored on a dedicated machine, in an encrypted volume, under one account. It is not
+  uploaded to a public repository, a shared drive, a file-converter site, or a third-party chat tool.</p>
+
+  <h2>Who can open it</h2>
+  <p>Me, and the automated batch runner on the same machine. No contractor, no offshore team, no buyer,
+  no “community” of reviewers.</p>
+
+  <h2>How long it stays</h2>
+  <p>Thirty days after the report is delivered, the source and every intermediate file are deleted. If you
+  want it deleted sooner, say so and it is gone the same day. The finished report and the CSVs are yours;
+  the source is not kept as a library.</p>
+
+  <h2>What it is never used for</h2>
+  <ul>
+    <li>It is not resold, published, or reused in another client’s report.</li>
+    <li>It is not turned into a product, an indicator, or a template.</li>
+    <li>It is not used to train a model.</li>
+    <li>It is not shared with a broker, a prop firm, or a marketplace.</li>
+  </ul>
+
+  <h2>The NDA</h2>
+  <p>A mutual NDA is available before you upload anything. Ask for it and I will send one to sign, or send
+  yours. If your employer or prop firm requires a specific form, send it and I will read it before we start.</p>
+
+  <h2>What I need</h2>
+  <ul>
+    <li>The <code>.mq5</code> source, with any <code>.mqh</code> it needs — or the <code>.ex5</code> if the source is not available.</li>
+    <li>The symbol, timeframe, date range, deposit and leverage you want. If you do not know, say “you choose” and I will state what I picked.</li>
+    <li>Any configuration that matters: spread mode, commission, swap, or a specific broker’s data.</li>
+  </ul>
+
+  <h2>What you get back</h2>
+  <p>The report, the CSVs behind it, the raw terminal report, and the exact commands to reproduce every
+  run. The source is not returned modified. If the EA does not compile, I tell you before spending the
+  run time.</p>
+
+  <div class="note"><b>One honest limitation.</b> A validation run needs the EA to compile in a real MT5
+  terminal. If it depends on a proprietary include file, a DLL, or a broker-only feed, say so up front —
+  that is a scoping conversation, not something to discover after payment.</div>
+
+  <h2>Questions before you send</h2>
+  <p>Email <a href="mailto:dhashannaidoo1234@gmail.com?subject=Source%20handling%20question">dhashannaidoo1234@gmail.com</a>
+  with the subject “Source handling”. I answer within one working day, UTC+2.</p>
+  <p><a class="btn" href="./order">Order a validation</a>
+  <a class="btn ghost" href="./sample-report">See the sample report first</a></p>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./order">Order</a> · <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+</body>
+</html>

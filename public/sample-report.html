@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample walk-forward report — in-sample +8,258.81, out-of-sample −3,398.03</title>
+<meta name="description" content="A real walk-forward validation of a sample EA, published in full because it failed out of sample. See the exact report a buyer gets before you order.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/sample-report">
+<link rel="stylesheet" href="./growth.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>The sample report is a failure. That is the point.</h1>
+  <p class="lede">This is a real walk-forward run of a clean-room sample EA on XAUUSDz M15, using the
+  broker’s real-tick data. It made money in sample on every fold and lost money out of sample on five of
+  seven. I publish it because a report that only ever confirms what you hoped is worth nothing.</p>
+
+  <div class="kpi">
+    <div><div class="k">In-sample net</div><div class="v">+8,258.81</div></div>
+    <div><div class="k">Out-of-sample net</div><div class="v">−3,398.03</div></div>
+    <div><div class="k">WF efficiency</div><div class="v">−0.41</div></div>
+    <div><div class="k">Folds</div><div class="v">7/7</div></div>
+    <div><div class="k">Profitable OOS folds</div><div class="v">2/7</div></div>
+  </div>
+
+  <div class="note"><b>What this means.</b> Walk-forward efficiency is out-of-sample profit divided by
+  in-sample profit for the same selected parameters. Near 1.0 means the selection generalised. Near 0 means
+  the in-sample result was curve fitting. Negative means the selection actively hurt. Here, the parameters
+  that looked best on each training window did not survive the next, unseen window.</div>
+
+  <h2>The folds</h2>
+  <table>
+    <tr><th>#</th><th>Train</th><th>Test</th><th>Selected</th><th>In-sample</th><th>Out-of-sample</th><th>Trades</th><th>PF</th><th>Max DD</th></tr>
+    <tr><td>1</td><td>2023.07.01–2023.10.29</td><td>2023.10.29–2023.12.28</td><td>20 / 30</td><td>+738.45</td><td>−1,537.05</td><td>50</td><td>0.47</td><td>16.87%</td></tr>
+    <tr><td>2</td><td>2023.08.30–2023.12.28</td><td>2023.12.28–2024.02.26</td><td>8 / 50</td><td>+927.01</td><td>+303.98</td><td>60</td><td>1.10</td><td>6.81%</td></tr>
+    <tr><td>3</td><td>2023.10.29–2024.02.26</td><td>2024.02.26–2024.04.26</td><td>8 / 50</td><td>+678.72</td><td>−538.54</td><td>62</td><td>0.80</td><td>11.27%</td></tr>
+    <tr><td>4</td><td>2023.12.28–2024.04.26</td><td>2024.04.26–2024.06.25</td><td>12 / 30</td><td>+1,684.14</td><td>−324.12</td><td>73</td><td>0.92</td><td>8.19%</td></tr>
+    <tr><td>5</td><td>2024.02.26–2024.06.25</td><td>2024.06.25–2024.08.24</td><td>20 / 30</td><td>+1,971.19</td><td>+383.10</td><td>60</td><td>1.13</td><td>7.04%</td></tr>
+    <tr><td>6</td><td>2024.04.26–2024.08.24</td><td>2024.08.24–2024.10.23</td><td>8 / 50</td><td>+2,052.19</td><td>−1,352.35</td><td>65</td><td>0.63</td><td>15.22%</td></tr>
+    <tr><td>7</td><td>2024.06.25–2024.10.23</td><td>2024.10.23–2024.12.22</td><td>20 / 50</td><td>+207.11</td><td>−333.05</td><td>59</td><td>0.87</td><td>9.16%</td></tr>
+  </table>
+
+  <p><a class="btn" href="./sample-walkforward.html">Open the full sample report</a>
+  <a class="btn ghost" href="./sample-walkforward.csv">Download the CSV</a></p>
+
+  <h2>What you get in a paid report</h2>
+  <ul>
+    <li>The sweep table, ranked by a <b>declared</b> objective — not by whichever column looked best.</li>
+    <li>Every fold with the selected parameters, in-sample and out-of-sample results side by side.</li>
+    <li>The efficiency number, the profitable-fold ratio, and a plain reading of both.</li>
+    <li>The worst losing streak, where it happened, and the equity curve rebuilt from the deals.</li>
+    <li>Cost stress at 2× and 3× commission and swap.</li>
+    <li>The raw MT5 report and the exact commands to reproduce every run.</li>
+  </ul>
+
+  <div class="note ok"><b>Read the fine print.</b> The EA is the clean-room sample shipped with the
+  harness, not a client’s strategy. The data is the broker’s real-tick history. This is a demonstration of
+  the method and the report format; it is not a claim about any other EA, and it is not a forecast.
+  Historical simulations with modelled execution are not investment advice.</div>
+
+  <h2>Put your EA through the same test</h2>
+  <p>The health check is $29 and takes 24 hours. The full validation — sweep plus walk-forward — is $99
+  and takes four days. If I cannot reproduce your result, you do not pay.</p>
+  <p><a class="btn" href="./order">Order a validation</a>
+  <a class="btn ghost" href="./order">Start with the $29 health check</a></p>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./order">Order</a> ·
+    <a href="./source-handling">Source handling</a> · <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mt5-analyzer.dhashan.workers.dev/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://mt5-analyzer.dhashan.workers.dev/order</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mt5-analyzer.dhashan.workers.dev/voice</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mt5-analyzer.dhashan.workers.dev/tools</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/order</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/sample-report</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/calculators</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/services</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/wf-tested</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/source-handling</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/checklist</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/tools</loc><lastmod>2026-10-24</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mt5-analyzer.dhashan.workers.dev/voice</loc><lastmod>2026-10-24</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
 </urlset>

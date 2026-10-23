@@ -77,6 +77,14 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
 </head>
 <body>
 <div class="wrap">
+  <div class="bar" style="border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:22px;justify-content:flex-start">
+    <a href="./" style="font-weight:700;color:var(--text);text-decoration:none">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="btn ghost" style="margin-left:auto;padding:7px 12px;font-size:13px" href="./order">Order</a>
+  </div>
   <h1>MT5 Backtest Report Analyzer</h1>
   <p class="sub">Drop a MetaTrader&nbsp;5 <b>Strategy Tester</b> HTML report on this page. You get the numbers
   that actually matter — expectancy, drawdown, cost sensitivity, and where the profit came from — in about a second.
@@ -90,6 +98,20 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
   </div>
 
   <div id="err" class="err hidden"></div>
+
+
+  <div id="capture" class="hidden">
+    <div class="cta">
+      <h2>Keep this report</h2>
+      <p>Get the PDF, the 5-point checklist, and the next teardown by email. One field. No account. No spam.</p>
+      <form id="cap-form" style="background:none;border:none;padding:0;margin:12px 0 0;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <input id="cap-email" type="email" required placeholder="you@example.com" style="max-width:320px;background:var(--panel2);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:10px 12px;font:inherit">
+        <button class="btn" type="submit">Email me the checklist</button>
+        <a class="btn ghost" href="./checklist.html">Read it now</a>
+      </form>
+      <p class="small" id="cap-msg" style="margin-top:10px">Unsubscribe in one click. I never sell the list.</p>
+    </div>
+  </div>
 
   <div id="out" class="hidden">
     <div id="head"></div>
@@ -112,6 +134,11 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
     <p>In MetaTrader 5: open the Strategy Tester, set it up, press <b>Run</b>, then right-click the
     <b>Results</b> grid → <b>Report</b> → <b>HTML</b>. It is written to your terminal's data folder.
     If you already have one, this page is the fastest way to read it.</p>
+    <h2>Why the sample report is a failure</h2>
+    <p>The <a href="./sample-report">sample walk-forward report</a> on this site lost money out of sample:
+    +8,258.81 in sample, −3,398.03 out of sample, efficiency −0.41. It is published in full because a
+    report that only ever confirms what you hoped is worth nothing. Read it before you pay anyone.</p>
+
     <h2>The trading tools</h2>
   <p>Three MetaTrader 5 utilities on the MQL5 Market, written by the same person who wrote this
   page. Each one solves one specific problem and none of them places a trade for you.</p>
@@ -149,9 +176,13 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
 
   <footer>
     <p>Free tool. The walk-forward validation, parameter sweep and version-comparison reports are paid
-    services — see below. No profitability claims are made anywhere on this site, and none should be
-    inferred from any number it shows: these are historical simulations with modelled execution, not
-    forecasts.</p>
+    services — <a href="./order">see pricing</a>. No profitability claims are made anywhere on this site,
+    and none should be inferred from any number it shows: these are historical simulations with modelled
+    execution, not forecasts.</p>
+    <p><a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./source-handling">Source handling</a> · <a href="./wf-tested">WF-Tested</a> ·
+    <a href="mailto:dhashannaidoo1234@gmail.com">Contact</a></p>
   </footer>
 </div>
 
@@ -208,6 +239,27 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
     reader.readAsArrayBuffer(file);
   }
 
+  var API = window.MTB5_API || ((location.hostname.endsWith('.workers.dev') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : 'https://mt5-analyzer.dhashan.workers.dev');
+
+  var capForm = document.getElementById('cap-form');
+  if (capForm) {
+    capForm.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var email = document.getElementById('cap-email').value.trim();
+      var msg = document.getElementById('cap-msg');
+      fetch(API + '/api/subscribe', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'analyzer' })
+      }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (r) {
+          if (!r.ok) { msg.textContent = r.j.error || 'Could not add that address.'; return; }
+          msg.innerHTML = '<b style="color:var(--good)">You are on the list.</b> The checklist is <a href="./checklist.html">here</a>.';
+        }).catch(function () {
+          msg.innerHTML = 'Email <a href="mailto:dhashannaidoo1234@gmail.com?subject=Checklist">dhashannaidoo1234@gmail.com</a> and I will add you.';
+        });
+    });
+  }
+
   function render(report, name) {
     var m = MT5.metrics(report);
     document.getElementById('head').innerHTML =
@@ -222,6 +274,7 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color
     document.getElementById('charts').innerHTML = MT5.chartsHtml(m);
     document.getElementById('tables').innerHTML = MT5.tablesHtml(m);
     document.getElementById('cta').innerHTML = MT5.ctaHtml();
+    document.getElementById('capture').classList.remove('hidden');
   }
 })();
 </script>

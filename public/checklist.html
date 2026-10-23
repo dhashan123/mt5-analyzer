@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The 5-point backtest checklist — before you trust any EA</title>
+<meta name="description" content="Five questions to ask before trusting a backtest: pinned configuration, out-of-sample parameters, cost stress, concentration, and the worst losing streak.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/checklist">
+<link rel="stylesheet" href="./growth.css">
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>The 5-point backtest checklist.</h1>
+  <p class="lede">Print it, paste it into your notes, or send it to whoever sold you the EA. If any answer
+  is “I don’t know”, that is the part worth fixing first.</p>
+
+  <ol style="font-size:16px;line-height:1.8;color:#c6ccd9;max-width:70ch">
+    <li><b>Was every run pinned to the same configuration?</b><br>
+      Symbol, timeframe, spread modelling, date range, deposit, leverage and currency. If two runs differ
+      in any of these, the comparison is not a comparison.</li>
+    <li><b>Were the parameters chosen on data the test never saw?</b><br>
+      A parameter sweep ranked by profit selects the setting that fitted the sample best. Only a
+      walk-forward — choose on one window, run on the next unseen one — answers whether it generalises.</li>
+    <li><b>Does it survive commission and swap at 2× and 3×?</b><br>
+      A strategy that only works at today’s costs is not a strategy; it is a bet on your broker’s pricing.</li>
+    <li><b>Is the profit concentrated in one week, one hour, or one symbol?</b><br>
+      Rebuild the equity curve from the deals and split the profit by day and hour. Concentration is the
+      fingerprint of a curve fit.</li>
+    <li><b>What is the worst losing streak, and where in the sample did it happen?</b><br>
+      A 12-loss run in the final month is a different risk from one spread evenly across three years. The
+      location matters as much as the length.</li>
+  </ol>
+
+  <div class="note"><b>One more question that is not on the list.</b> Who is telling you this, and what do
+  they lose if you say no? A report that only ever confirms what you hoped is worth nothing. The sample
+  report on this site is a failure, published in full — that is the standard.</div>
+
+  <h2>Run the check on your own EA</h2>
+  <p>The free analyzer reads an MT5 Strategy Tester report in your browser and computes the numbers above.
+  The paid validation runs the sweep and the walk-forward for you.</p>
+  <p><a class="btn" href="./">Open the free analyzer</a>
+  <a class="btn ghost" href="./order">Order a validation — from $29</a></p>
+
+  <h2>Get the next teardown</h2>
+  <form id="cap">
+    <label for="cap-email">Email</label>
+    <input id="cap-email" type="email" required placeholder="you@example.com">
+    <p style="margin-top:12px"><button class="btn" type="submit">Add me to the list</button>
+    <span class="small">One email a week, usually less. Unsubscribe in one click.</span></p>
+  </form>
+  <div id="cap-msg"></div>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./order">Order</a> · <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+<script src="./config.js"></script>
+<script>
+(function () {
+  var API = window.MTB5_API || ((location.hostname.endsWith('.workers.dev') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : 'https://mt5-analyzer.dhashan.workers.dev');
+  document.getElementById('cap').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var email = document.getElementById('cap-email').value.trim();
+    var msg = document.getElementById('cap-msg');
+    fetch(API + '/api/subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'checklist' })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) { msg.innerHTML = '<div class="note">' + (r.j.error || 'Could not add that address.') + '</div>'; return; }
+        msg.innerHTML = '<div class="note ok"><b>You are on the list.</b> The next teardown goes out Friday.</div>';
+      }).catch(function () {
+        msg.innerHTML = '<div class="note">Email <a href="mailto:dhashannaidoo1234@gmail.com?subject=Checklist">dhashannaidoo1234@gmail.com</a> and I will add you.</div>';
+      });
+  });
+})();
+</script>
+</body>
+</html>

@@ -532,10 +532,11 @@ var MT5 = (function () {
       'You get the out-of-sample result and the efficiency number, including when it says your edge did not survive.</li>' +
       '<li><b>Parameter sweep</b> — the grid, ranked by a declared objective, with every run pinned to one ' +
       'configuration so the comparison is real.</li></ul>' +
-      '<p style="margin-top:16px"><a class="btn" href="https://mt5-analyzer.dhashan.workers.dev/order">Get a walk-forward validation — from $39</a> ' +
-      '<a class="btn ghost" href="https://mt5-analyzer.dhashan.workers.dev/order">See pricing and how it works</a></p>' +
+      '<p style="margin-top:16px"><a class="btn" href="https://mt5-analyzer.dhashan.workers.dev/order">Start with the $29 health check</a> ' +
+      '<a class="btn ghost" href="https://mt5-analyzer.dhashan.workers.dev/sample-report">See a real sample report</a></p>' +
       '<p class="small" style="margin-top:14px">No profitability claims. The deliverable is measurement, and the ' +
-      'measurement is allowed to be unflattering — that is the entire point of paying for it.</p></div>';
+      'measurement is allowed to be unflattering — that is the entire point of paying for it. ' +
+      '<a href="https://mt5-analyzer.dhashan.workers.dev/order">Pricing: $29 / $99 / $249</a>.</p></div>';
   }
 
   return {

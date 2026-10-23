@@ -3,289 +3,355 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Walk-forward validation of your trading robot — pricing and ordering</title>
-<meta name="description" content="Walk-forward validation and parameter sweeps for MetaTrader 5 Expert Advisors. Parameters chosen on one window, tested on data they never saw. Honest numbers, including unflattering ones.">
+<title>Walk-forward validation for your EA — sample report, pricing, ordering</title>
+<meta name="description" content="Independent walk-forward validation and parameter sweeps for MetaTrader 5 Expert Advisors. See a real sample report first, then order from $29. PayPal, card or crypto. If I cannot reproduce your result, you do not pay.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/order">
-<style>
-:root{--bg:#0c0f14;--panel:#141922;--panel2:#1b212c;--border:#28303d;--text:#e8ebf2;--dim:#8b95a9;
---good:#34c759;--bad:#ff5f56;--warn:#e3a008;--accent:#4c8dff;--accent2:#7b5cff}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
-font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.wrap{max-width:880px;margin:0 auto;padding:28px 20px 80px}
-h1{font-size:27px;margin:0 0 6px;letter-spacing:-.02em}
-h2{font-size:19px;margin:34px 0 10px;color:var(--accent)}
-h3{font-size:14px;margin:18px 0 6px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
-p{color:#c6ccd9}
-a{color:var(--accent)}
-.sub{color:var(--dim);margin:0 0 22px}
-table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--border);
-border-radius:8px;overflow:hidden;margin:12px 0;font-variant-numeric:tabular-nums}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:14px}
-th{background:#1d2430;color:var(--dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-td.num,th.num{text-align:right}
-tr:last-child td{border-bottom:none}
-.price{font-size:22px;font-weight:700}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:18px 0}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px}
-.card h3{margin-top:0}
-.card .price{margin:4px 0 8px}
-.card ul{padding-left:18px;margin:8px 0 0;color:#c6ccd9;font-size:14px}
-.card li{margin:4px 0}
-.best{border-color:var(--accent)}
-.best .price{color:var(--accent)}
-form{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px;margin:18px 0}
-label{display:block;font-size:13px;color:var(--dim);margin:12px 0 4px}
-input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);
-border-radius:7px;padding:10px 12px;font:inherit;font-size:14px}
-textarea{min-height:84px;resize:vertical}
-.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:12px 20px;
-border-radius:8px;font-weight:600;font-size:15px;border:none;cursor:pointer;font-family:inherit}
-.btn:hover{filter:brightness(1.1)}
-.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
-.note{background:#1a1d25;border-left:3px solid var(--warn);padding:13px 16px;margin:20px 0;
-color:#c9cfdd;font-size:14px;border-radius:0 8px 8px 0}
-.note b{color:var(--warn)}
-.ok{background:#0f2417;border-left-color:var(--good)}
-.ok b{color:var(--good)}
-.addr{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;
-background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;
-word-break:break-all;margin:6px 0}
-.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;
-background:#1d2430;color:var(--dim);margin-right:6px}
-.pill.g{background:#123a1e;color:var(--good)}.pill.y{background:#3a2f10;color:var(--warn)}
-code{background:var(--panel2);padding:2px 6px;border-radius:4px;font-size:13px}
-ol.steps{color:#c6ccd9;padding-left:20px}
-ol.steps li{margin:9px 0}
-footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);color:var(--dim);font-size:13px}
-.hidden{display:none}
-.small{font-size:13px;color:var(--dim)}
-@media(max-width:640px){h1{font-size:22px}.wrap{padding:18px 14px 60px}}
-</style>
+<link rel="stylesheet" href="./growth.css">
 </head>
 <body>
 <div class="wrap">
-  <h1>Walk-forward validation</h1>
-  <p class="sub">A backtest tells you what happened. A walk-forward test tells you what is
-  likely to happen next, and it is the only one of the two that is worth paying for.</p>
 
-  <p>The whole service is one question, answered honestly: <b>does your strategy still work
-  on data its parameters never saw?</b> The parameters are chosen on one window, run on the
-  next, unseen one, and the out-of-sample result is reported as measured — including when it
-  says your edge did not survive.</p>
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
 
-  <div class="note"><b>No profitability claims.</b> Not here, not in any report, not in any
-  message. The deliverable is measurement. A report that only ever confirms what you hoped
-  is worth nothing, and you should refuse to pay for one.</div>
+  <h1>Find out whether your EA survives data it has never seen.</h1>
+  <p class="lede">Send the EA. I run a parameter sweep and a walk-forward with every run pinned to one
+  configuration, then write down what held up, what did not, and what I would not trust. If it fails
+  out of sample, you still get the report. That is the product.</p>
 
-  <h2>What you get</h2>
+  <div class="trust">
+    <a href="./sample-report"><b>See a real sample report</b><span>In-sample +8,258.81. Out-of-sample −3,398.03. Efficiency −0.41. Published in full, including the failure.</span></a>
+    <a href="./source-handling"><b>How your code is handled</b><span>NDA available, encrypted at rest, one machine, deleted 30 days after delivery, never reused.</span></a>
+    <a href="#guarantee"><b>The guarantee</b><span>If I cannot reproduce your result, you do not pay. If it fails out of sample, the finding is the deliverable.</span></a>
+    <a href="#faq"><b>No profit claims</b><span>Not here, not in the report, not in any message. Measurement can be unflattering.</span></a>
+  </div>
+
+  <h2>Pick the depth</h2>
   <div class="cards">
     <div class="card">
-      <h3>Single report</h3>
-      <div class="price">$39</div>
-      <p class="small">2 days · 2 revisions</p>
+      <h3>EA Health Check</h3>
+      <div class="price">$29</div>
+      <div class="per">24 hours · 1 revision</div>
       <ul>
-        <li>One validation run: the sweep cell and the walk-forward fold, fully specified and reproducible</li>
-        <li>Every metric that matters, plus the equity curve rebuilt from the deals</li>
-        <li>Cost sensitivity: the result at 2× and 3× commission and swap</li>
-        <li>The raw terminal report, and the exact command to re-run it</li>
+        <li>One run, one pinned configuration</li>
+        <li>Two-page PDF: the three red flags, cost stress at 2× and 3×, reproducibility</li>
+        <li>The raw terminal report and the command to re-run it</li>
+        <li><b>Credited</b> against the $99 validation if you upgrade within 30 days</li>
       </ul>
+      <p style="margin-top:14px"><a class="btn ghost small" href="#order" data-tier="health">Start at $29</a></p>
     </div>
     <div class="card best">
       <h3>Validation <span class="pill g">recommended</span></h3>
       <div class="price">$99</div>
-      <p class="small">4 days · 3 revisions</p>
+      <div class="per">4 days · 3 revisions</div>
       <ul>
-        <li>Parameter sweep, 9 cells, ranked by a <b>declared</b> objective</li>
+        <li>9-cell parameter sweep, ranked by a <b>declared</b> objective</li>
         <li><b>Walk-forward validation</b> with the efficiency number</li>
         <li>Out-of-sample result per fold, in and out of sample side by side</li>
-        <li>A written finding: what held up, what did not, and what I would not trust</li>
-        <li>Single self-contained HTML report + CSV + the raw terminal report</li>
+        <li>Written finding: what held up, what did not, what I would not trust</li>
+        <li>Self-contained HTML report + CSV + raw terminal report</li>
       </ul>
+      <p style="margin-top:14px"><a class="btn small" href="#order" data-tier="validation">Order the validation</a></p>
     </div>
     <div class="card">
       <h3>Full study</h3>
       <div class="price">$249</div>
-      <p class="small">7 days · unlimited revisions</p>
+      <div class="per">7 days · unlimited revisions</div>
       <ul>
-        <li>Everything in Sweep, plus a second symbol</li>
-        <li>Walk-forward across every window, 3 parameters x 3 values</li>
+        <li>Everything in Validation, plus a second symbol</li>
+        <li>60 sweep cells and walk-forward across every window</li>
         <li>Cost sensitivity and by-day / by-hour attribution</li>
         <li>Version-vs-version comparison if you have a previous build</li>
-        <li>The batch harness, so you can re-run it all yourself</li>
+        <li>The batch harness, so you can re-run it yourself</li>
       </ul>
+      <p style="margin-top:14px"><a class="btn ghost small" href="#order" data-tier="full">Order the full study</a></p>
     </div>
   </div>
 
+  <div class="note ok"><b>Recurring, optional.</b> <b>Strategy Watch — $39/month.</b> A monthly re-run on new
+  data, live-versus-backtest drift, a drawdown alert, and a quarterly 20-minute call. Cancel anytime.
+  <a href="mailto:dhashannaidoo1234@gmail.com?subject=Strategy%20Watch">Start by email</a> — no checkout
+  needed, I will send the first invoice after we agree the scope.</div>
+
+  <h2>What you actually get</h2>
+  <table>
+    <tr><th>Deliverable</th><th>Health $29</th><th>Validation $99</th><th>Full $249</th></tr>
+    <tr><td>Runs pinned to one configuration</td><td>1</td><td>9-cell sweep + folds</td><td>60 cells + folds</td></tr>
+    <tr><td>Walk-forward efficiency</td><td>—</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Cost stress at 2× and 3×</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Equity curve rebuilt from the deals</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Worst losing streak, and where it happened</td><td>—</td><td>✓</td><td>✓</td></tr>
+    <tr><td>By-day and by-hour attribution</td><td>—</td><td>—</td><td>✓</td></tr>
+    <tr><td>Second symbol</td><td>—</td><td>—</td><td>✓</td></tr>
+    <tr><td>Raw report + exact reproduce commands</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    <tr><td>Written finding</td><td>1 page</td><td>3 pages</td><td>Full report</td></tr>
+  </table>
+
   <h2>How it works</h2>
-  <ol class="steps">
-    <li><b>Send your EA.</b> <code>.mq5</code> source is best (with any <code>.mqh</code> it
-    needs); <code>.ex5</code> is fine. Plus the symbol, timeframe, date range and deposit you
-    want, or say "you choose" and I will pick something sensible and tell you what I picked.</li>
-    <li><b>It is run.</b> Every run is pinned to one configuration — symbol, timeframe, spread
-    modelling, dates, deposit, leverage, currency — so the runs are actually comparable.
-    Modelling mode is <b>every tick based on real ticks</b> by default, because it is the only
-    mode that shows what a stop would really have done inside the bar.</li>
-    <li><b>You get the report.</b> A self-contained HTML file you can open anywhere, the CSVs
-    behind it, the raw terminal report, and the exact commands to reproduce every run on your
-    own broker.</li>
-  </ol>
+  <table>
+    <tr><th>Step</th><th>What happens</th></tr>
+    <tr><td>1. Send the EA</td><td><code>.mq5</code> source is best (with any <code>.mqh</code> it needs); <code>.ex5</code> is fine. Add the symbol, timeframe, date range and deposit you want — or say “you choose” and I will pick something sensible and tell you what I picked.</td></tr>
+    <tr><td>2. It is run</td><td>Every run is pinned to one configuration: symbol, timeframe, spread modelling, dates, deposit, leverage, currency. Real-tick modelling by default, because it is the only mode that shows what a stop would really have done inside the bar.</td></tr>
+    <tr><td>3. You get the report</td><td>A self-contained HTML file you can open anywhere, the CSVs behind it, the raw terminal report, and the exact commands to reproduce every run on your own broker.</td></tr>
+  </table>
 
   <h2>What I will not do</h2>
   <ul>
     <li>Tune your parameters until the numbers look good, and call that a validation.</li>
     <li>Present an in-sample result as if it were out-of-sample.</li>
     <li>Quote a number I have not reproduced myself.</li>
-    <li>Promise that your strategy is profitable. I do not know that, and neither does any
-    other person who tells you they do.</li>
+    <li>Promise that your strategy is profitable. I do not know that, and neither does anyone who tells you they do.</li>
   </ul>
 
-  <h2>Order</h2>
-  <form id="order">
-    <div class="note ok"><b>Why crypto?</b> Every other payment rail needs a bank account, a
-    PayPal account or a card on file, and a human to set it up. This site runs itself, so the
-    payment rail is a wallet. It also means no platform takes a cut of your money, and no
-    account of yours is exposed to anyone.</div>
-
-    <label for="email">Your email <span class="small">(where the report goes)</span></label>
-    <input id="email" name="email" type="email" required placeholder="you@example.com">
-
-    <label for="ea">EA file or a download link</label>
-    <input id="ea" name="ea" type="text" required placeholder="https://.../MyEA.mq5  (or note how you'll send it)">
-
-    <label for="symbol">Symbol and timeframe</label>
-    <input id="symbol" name="symbol" type="text" placeholder="XAUUSDz M15">
-
-    <label for="range">Date range and deposit</label>
-    <input id="range" name="range" type="text" placeholder="2023-01-01 to 2024-12-31, $10,000">
-
-    <label for="tier">Service</label>
-    <select id="tier" name="tier">
-      <option value="single">Single validation run — $39</option>
-      <option value="validation" selected>Sweep + walk-forward — $99</option>
-      <option value="full">Full study — $249</option>
-    </select>
-
+  <h2 id="order">Order</h2>
+  <form id="order-form">
+    <div class="row">
+      <div>
+        <label for="email">Your email <span class="small">(where the report goes)</span></label>
+        <input id="email" type="email" required placeholder="you@example.com">
+      </div>
+      <div>
+        <label for="tier">Service</label>
+        <select id="tier">
+          <option value="health">EA Health Check — $29</option>
+          <option value="validation" selected>Validation (sweep + walk-forward) — $99</option>
+          <option value="full">Full study (2 symbols + harness) — $249</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="ea">EA file or a download link</label>
+        <input id="ea" type="text" placeholder="https://.../MyEA.mq5 — or “send later”">
+      </div>
+      <div>
+        <label for="symbol">Symbol and timeframe</label>
+        <input id="symbol" type="text" placeholder="XAUUSDz M15">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="range">Date range and deposit</label>
+        <input id="range" type="text" placeholder="2023-01-01 to 2024-12-31, $10,000">
+      </div>
+      <div>
+        <label for="method">Payment</label>
+        <select id="method">
+          <option value="paypal" selected>PayPal or card (recommended)</option>
+          <option value="crypto">Crypto — USDT-TRC20 / ETH / BTC</option>
+          <option value="invoice">Bank transfer / invoice (B2B)</option>
+        </select>
+      </div>
+    </div>
     <label for="notes">Anything else</label>
-    <textarea id="notes" name="notes" placeholder="What you are trying to find out. The specific thing that worries you about this strategy is the most useful thing you can write here."></textarea>
-
+    <textarea id="notes" placeholder="What you are trying to find out. The specific thing that worries you about this strategy is the most useful thing you can write here."></textarea>
     <p style="margin-top:18px"><button class="btn" type="submit">Create the order</button>
-    <a class="btn ghost" href="./">Back to the free analyzer</a></p>
+    <span class="small">No payment is taken on this page. You choose how to pay next.</span></p>
   </form>
 
   <div id="result" class="hidden"></div>
 
-  <h2>Payment addresses</h2>
-  <p class="small">Send the exact amount for the tier you chose, then paste the transaction ID
-  into the form. Network fees on TRON are fractions of a cent; use USDT-TRC20 or any TRC-20
-  token on the TRON network.</p>
+  <h2 id="guarantee">The guarantee</h2>
+  <p><b>If I cannot reproduce your result, you do not pay.</b> If the walk-forward shows the strategy does
+  not hold up, you still get the report and a 20-minute call. The finding is the deliverable, not a sales
+  pitch. For the first ten orders: if the report does not tell you something you did not already know, I
+  refund half, and you keep the report.</p>
+  <p class="small">The guarantee is about the quality of the measurement, not the strategy’s performance.
+  No one can promise a trading result, and I will not pretend to.</p>
 
-  <h3>TRON (T…) — USDT-TRC20 recommended</h3>
-  <div class="addr" id="addr-tron">—</div>
-  <h3>Ethereum (0x…) — USDC or ETH</h3>
-  <div class="addr" id="addr-eth">—</div>
-  <h3>Bitcoin</h3>
-  <div class="addr" id="addr-btc">—</div>
+  <h2 id="faq">Questions</h2>
+  <dl class="faq">
+    <dt>Do you need my source code?</dt>
+    <dd>Source is best because the tester needs to compile it with your exact build. An <code>.ex5</code>
+    works too. If you want an NDA first, say so — see <a href="./source-handling">how your code is handled</a>.</dd>
+    <dt>How long does it take?</dt>
+    <dd>Health check 24 hours. Validation 4 days. Full study 7 days. If the queue is full I will tell you
+    the next available date before you pay.</dd>
+    <dt>What if the result is bad?</dt>
+    <dd>You get the report, the numbers, and a short call. A negative result that is reproducible is worth
+    more than a positive one that is not. That is why the sample report on this site is a failure.</dd>
+    <dt>Can you fix the strategy too?</dt>
+    <dd>Yes — that is a separate build or audit, quoted after I see the code. Validation is measurement;
+    it is not parameter tuning.</dd>
+    <dt>Is this financial advice?</dt>
+    <dd>No. It is a historical simulation with modelled execution, not a forecast or a recommendation.</dd>
+    <dt>How do I pay?</dt>
+    <dd>PayPal or card, crypto (USDT-TRC20, ETH, BTC), or an invoice for business clients. You choose on
+    the form; nothing is charged automatically.</dd>
+  </dl>
 
-  <div class="note"><b>Before you send.</b> Crypto payments are final and cannot be reversed.
-  Send only the network and asset shown above — USDT sent on the wrong network is unrecoverable.
-  Small test transfers are not unusual.</div>
-
-  <footer>
-    <p>These are historical simulations with modelled execution. They are not forecasts, not a
-    guarantee, and not investment advice. Live execution differs from any model: spread,
-    slippage, requotes, partial fills and latency are approximations.</p>
-  </footer>
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a> ·
+    replies usually within one working day (UTC+2).</p>
+    <p>These are historical simulations with modelled execution. They are not forecasts, not a guarantee,
+    and not investment advice. Live execution differs from any model: spread, slippage, requotes, partial
+    fills and latency are approximations.</p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./calculators">Calculators</a> · <a href="./sample-report">Sample report</a> ·
+    <a href="./source-handling">Source handling</a> · <a href="./wf-tested">WF-Tested</a></p>
+  </div>
 </div>
 
 <script src="./config.js"></script>
 <script>
 (function () {
+  var API = window.MTB5_API || ((location.hostname.endsWith('.workers.dev') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : 'https://mt5-analyzer.dhashan.workers.dev');
   var CFG = window.MTB5_ORDER || {};
-  function set(id, v) { var e = document.getElementById(id); if (e && v) e.textContent = v; }
-  set('addr-tron', CFG.tron);
-  set('addr-eth', CFG.eth);
-  set('addr-btc', CFG.btc);
-
-  var form = document.getElementById('order');
+  var form = document.getElementById('order-form');
   var result = document.getElementById('result');
   var pollTimer = null;
 
-  function orderStatus(id) {
-    return fetch('https://mt5-analyzer.dhashan.workers.dev/order/' + id).then(function (r) { return r.json(); });
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function money(n) { return '$' + Number(n).toFixed(0); }
+
+  document.querySelectorAll('[data-tier]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var t = a.getAttribute('data-tier');
+      var sel = document.getElementById('tier');
+      if (sel) sel.value = t;
+    });
+  });
+
+  function track(name) {
+    try {
+      var body = JSON.stringify({ name: name, path: location.pathname });
+      if (navigator.sendBeacon) navigator.sendBeacon(API + '/api/event', body);
+    } catch (e) {}
+  }
+  track('view_order');
+
+  function status(id) {
+    return fetch(API + '/order/' + encodeURIComponent(id)).then(function (r) { return r.json(); });
   }
 
-  function showStatus(id) {
-    orderStatus(id).then(function (s) {
+  function renderStatus(id) {
+    status(id).then(function (s) {
       if (!s || s.error) return;
       if (s.status === 'delivered' || s.report_available) {
-        result.innerHTML =
-          '<div class="note ok"><b>Your report is ready.</b><br>' +
-          'Order <code>' + s.id + '</code> — ' + (s.tier || '') + '.<br><br>' +
-          '<a class="btn" href="https://mt5-analyzer.dhashan.workers.dev/report/' + s.id + '">Download the validation report</a>' +
-          (s.report_summary ? '<p class="small" style="margin-top:12px">' + s.report_summary + '</p>' : '') +
-          '<p class="small" style="margin-top:12px">The report is a single self-contained HTML file. ' +
-          'Open it in any browser, including offline.</p></div>';
+        result.innerHTML = '<div class="note ok"><b>Your report is ready.</b><br>Order <code>' + esc(s.id) +
+          '</code> — ' + esc(s.tier || '') + '.<br><br><a class="btn" href="' + API + '/report/' +
+          encodeURIComponent(s.id) + '">Download the validation report</a>' +
+          (s.report_summary ? '<p class="small" style="margin-top:12px">' + esc(s.report_summary) + '</p>' : '') +
+          '<p class="small" style="margin-top:12px">The report is one self-contained HTML file. Open it in any browser, including offline.</p></div>';
         if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
         return;
       }
-      var msg = s.paid
-        ? 'Payment received. Your order is in the queue and the report is being generated. ' +
-          'This page checks for you — leave it open.'
-        : 'Waiting for the payment to be attached.';
-      result.innerHTML = '<div class="note"><b>Order ' + s.id + '</b><br>' + msg +
-        '<br><span class="small">Status: ' + s.status + '</span></div>';
+      var msg;
+      if (s.status === 'payment_review') {
+        msg = 'Payment reference received. I check it by hand, usually within a few hours, then the run starts. This page updates itself.';
+      } else if (s.paid || s.status === 'paid_queued') {
+        msg = 'Payment confirmed. Your order is in the queue and the report is being generated. Leave this page open.';
+      } else if (s.status === 'awaiting_payment') {
+        msg = 'Waiting for the payment reference.';
+      } else {
+        msg = 'Status: ' + esc(s.status);
+      }
+      result.innerHTML = '<div class="note"><b>Order ' + esc(s.id) + '</b><br>' + msg + '</div>';
+    }).catch(function () {});
+  }
+
+  function cryptoBox(o) {
+    var rows = [
+      ['TRON (T…) — USDT-TRC20', o.tron, o.usdt + ' USDT'],
+      ['Ethereum (0x…) — USDC or ETH', o.eth, 'the ETH equivalent'],
+      ['Bitcoin', o.btc_addr, o.btc + ' BTC']
+    ].filter(function (r) { return r[1]; });
+    var html = '<p>Send the exact amount, then paste the transaction ID below. TRON fees are fractions of a cent.</p>';
+    rows.forEach(function (r) {
+      html += '<h3>' + esc(r[0]) + '</h3><div class="addr" data-copy="' + esc(r[1]) + '" title="Click to copy">' +
+        esc(r[1]) + '</div><p class="small">Amount: <b>' + esc(r[2]) + '</b></p>';
+    });
+    html += '<div class="note"><b>Before you send.</b> Crypto payments are final. Send only the network and asset shown — USDT on the wrong network is unrecoverable.</div>' +
+      '<label for="txin">Transaction ID / hash</label><input id="txin" placeholder="paste the transaction hash">' +
+      '<p><button class="btn" id="txbtn" type="button">I have paid</button></p>';
+    return html;
+  }
+
+  function paymentBox(o) {
+    var amount = o.usd;
+    var html = '<div class="note ok"><b>Order ' + esc(o.id) + ' created.</b><br>Amount: <b>' +
+      money(amount) + '</b> USD. Keep this order number — it matches your payment.</div>';
+    if (o.method === 'paypal') {
+      var base = (CFG.paypal || 'https://www.paypal.com/paypalme/dhasss').replace(/\/+$/, '');
+      var url = base + '/' + encodeURIComponent(String(amount));
+      html += '<h3>Pay with PayPal</h3><p>Card payments are accepted on the PayPal page — you do not need a PayPal account.</p>' +
+        '<p><a class="btn" id="paylink" href="' + esc(url) + '" target="_blank" rel="noopener">Pay ' + money(amount) + ' with PayPal</a></p>' +
+        '<p class="small">After paying, copy the PayPal transaction ID from the receipt and paste it here.</p>' +
+        '<label for="txin">PayPal transaction ID</label><input id="txin" placeholder="e.g. 1AB23456CD789012E">' +
+        '<p><button class="btn" id="txbtn" type="button">I have paid</button></p>';
+    } else if (o.method === 'crypto') {
+      html += cryptoBox(o);
+    } else {
+      var subject = encodeURIComponent('Invoice request ' + o.id);
+      var body = encodeURIComponent('Please send an invoice for order ' + o.id + ' (' + money(amount) + ' USD).\n\nMy details:\n');
+      html += '<h3>Invoice</h3><p>I will email a PDF invoice with the bank details. New clients: 50% deposit, balance on delivery.</p>' +
+        '<p><a class="btn" href="mailto:dhashannaidoo1234@gmail.com?subject=' + subject + '&body=' + body + '">Request the invoice</a></p>';
+    }
+    result.innerHTML = html;
+
+    document.querySelectorAll('[data-copy]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var t = el.getAttribute('data-copy');
+        if (navigator.clipboard) navigator.clipboard.writeText(t);
+      });
+    });
+
+    var btn = document.getElementById('txbtn');
+    if (btn) btn.addEventListener('click', function () {
+      var tx = (document.getElementById('txin') || {}).value || '';
+      if (!tx.trim()) return;
+      btn.disabled = true;
+      fetch(API + '/order/' + encodeURIComponent(o.id), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tx: tx.trim(), method: o.method })
+      }).then(function (r) { return r.json(); }).then(function () {
+        btn.disabled = false;
+        renderStatus(o.id);
+        if (!pollTimer) pollTimer = setInterval(function () { renderStatus(o.id); }, 20000);
+      }).catch(function () { btn.disabled = false; });
     });
   }
 
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
-    var data = {};
-    ['email', 'ea', 'symbol', 'range', 'tier', 'notes'].forEach(function (k) {
-      var e = document.getElementById(k);
-      if (e) data[k] = e.value.trim();
-    });
-    data.tx = (window.MTB5_PAYMENT_TX || '').trim();
+    var data = {
+      email: document.getElementById('email').value.trim(),
+      ea: document.getElementById('ea').value.trim(),
+      symbol: document.getElementById('symbol').value.trim(),
+      range: document.getElementById('range').value.trim(),
+      tier: document.getElementById('tier').value,
+      method: document.getElementById('method').value,
+      notes: document.getElementById('notes').value.trim()
+    };
     result.classList.remove('hidden');
-    result.innerHTML = '<div class="note"><b>Sending your order…</b></div>';
-    fetch('https://mt5-analyzer.dhashan.workers.dev/order', {
+    result.innerHTML = '<div class="note"><b>Creating your order…</b></div>';
+    fetch(API + '/order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
       .then(function (r) {
         if (!r.ok) {
-          result.innerHTML = '<div class="note"><b>Could not place the order.</b><br>' +
-            (r.j && r.j.error ? r.j.error : 'Unknown error') + '</div>';
+          result.innerHTML = '<div class="note"><b>Could not create the order.</b><br>' +
+            esc(r.j && r.j.error ? r.j.error : 'Unknown error') + '</div>';
           return;
         }
-        window.MTB5_PAYMENT_TX = r.j.id;
-        result.innerHTML =
-          '<div class="note ok"><b>Order ' + r.j.id + ' created.</b><br>' +
-          'Your order number is <code>' + r.j.id + '</code>. Keep it — you will need it to match the payment.<br>' +
-          'Now send <b>' + r.j.amount_display + '</b> to one of the addresses below and paste the transaction ID ' +
-          'here:<br><br>' +
-          '<input id="txin" placeholder="transaction id / tx hash" style="margin-bottom:10px">' +
-          '<br><button class="btn" id="txbtn" type="button">Attach the payment</button></div>';
-        var btn = document.getElementById('txbtn');
-        btn.addEventListener('click', function () {
-          var tx = document.getElementById('txin').value.trim();
-          if (!tx) return;
-          btn.disabled = true;
-          fetch('https://mt5-analyzer.dhashan.workers.dev/order/' + r.j.id, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ tx: tx })
-          }).then(function (rr) { return rr.json(); }).then(function () {
-            btn.disabled = false;
-            showStatus(r.j.id);
-            if (!pollTimer) pollTimer = setInterval(function () { showStatus(r.j.id); }, 20000);
-          });
-        });
+        paymentBox(Object.assign({}, r.j, { tron: CFG.tron, eth: CFG.eth, btc_addr: CFG.btc }));
         result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }).catch(function (e) {
-        result.innerHTML = '<div class="note"><b>Network error.</b> ' + (e && e.message ? e.message : e) + '</div>';
+        result.innerHTML = '<div class="note"><b>Network error.</b> ' + esc(e && e.message ? e.message : e) + '</div>';
       });
   });
 })();

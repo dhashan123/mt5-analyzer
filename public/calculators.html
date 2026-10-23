@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free trading calculators — lot size, costs, walk-forward efficiency, drawdown, prop challenge</title>
+<meta name="description" content="Five free calculators for traders: position size, spread and commission cost, walk-forward efficiency, drawdown recovery, and prop-firm challenge pass probability. No signup.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://mt5-analyzer.dhashan.workers.dev/calculators">
+<link rel="stylesheet" href="./growth.css">
+<style>
+.calc{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px;margin:16px 0}
+.calc h2{margin:0 0 4px;font-size:18px}
+.calc .out{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px;font-variant-numeric:tabular-nums}
+.calc .out b{font-size:24px;color:var(--accent)}
+.calc .out span{color:var(--dim);font-size:13px}
+.calc .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:640px){.calc .row3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="./">MT5 Analyzer</a>
+    <a href="./tools">Tools</a>
+    <a href="./services">Services</a>
+    <a href="./calculators">Calculators</a>
+    <a href="./sample-report">Sample report</a>
+    <a class="nav-cta" href="./order">Order</a>
+  </nav>
+
+  <h1>Five calculators that answer the questions a screenshot cannot.</h1>
+  <p class="lede">No signup, no upload, no server round trip. Change a number and the answer updates.
+  These are planning tools, not forecasts — the assumptions are stated under each one.</p>
+
+  <section class="calc" id="lot">
+    <h2>1. Position size from risk</h2>
+    <p class="small">How many lots put a fixed percentage of the balance at risk at a given stop distance.</p>
+    <div class="row3">
+      <div><label for="ls-bal">Balance ($)</label><input id="ls-bal" type="number" value="10000" min="0" step="100"></div>
+      <div><label for="ls-risk">Risk per trade (%)</label><input id="ls-risk" type="number" value="1" min="0" step="0.1"></div>
+      <div><label for="ls-stop">Stop distance (pips)</label><input id="ls-stop" type="number" value="20" min="1" step="1"></div>
+    </div>
+    <div class="row3">
+      <div><label for="ls-pip">Value per pip per 1.00 lot ($)</label><input id="ls-pip" type="number" value="10" min="0.01" step="0.01"></div>
+    </div>
+    <div class="out" id="ls-out"></div>
+    <p class="small">Lots = (balance × risk%) ÷ (stop in pips × value per pip per lot). For XAUUSD, confirm the contract size and the broker’s pip definition — a “pip” is not the same on every symbol.</p>
+  </section>
+
+  <section class="calc" id="cost">
+    <h2>2. What spread and commission cost you</h2>
+    <p class="small">The annual drag of trading costs, before any strategy edge.</p>
+    <div class="row3">
+      <div><label for="c-trades">Trades per month</label><input id="c-trades" type="number" value="20" min="0" step="1"></div>
+      <div><label for="c-lots">Lots per trade</label><input id="c-lots" type="number" value="0.1" min="0" step="0.01"></div>
+      <div><label for="c-comm">Commission per lot, round turn ($)</label><input id="c-comm" type="number" value="7" min="0" step="0.01"></div>
+    </div>
+    <div class="row3">
+      <div><label for="c-spread">Spread (pips)</label><input id="c-spread" type="number" value="1.5" min="0" step="0.1"></div>
+      <div><label for="c-pip">Value per pip per 1.00 lot ($)</label><input id="c-pip" type="number" value="10" min="0.01" step="0.01"></div>
+      <div><label for="c-months">Months</label><input id="c-months" type="number" value="12" min="1" step="1"></div>
+    </div>
+    <div class="out" id="c-out"></div>
+    <p class="small">Cost per trade = lots × (commission + spread × value per pip). This is the cost you must overcome before the strategy makes a cent. Swap is not included; add it if you hold overnight.</p>
+  </section>
+
+  <section class="calc" id="wf">
+    <h2>3. Walk-forward efficiency</h2>
+    <p class="small">Out-of-sample profit divided by in-sample profit, for the same selected parameters.</p>
+    <div class="row3">
+      <div><label for="wf-is">In-sample net profit ($)</label><input id="wf-is" type="number" value="8258.81" step="0.01"></div>
+      <div><label for="wf-oos">Out-of-sample net profit ($)</label><input id="wf-oos" type="number" value="-3398.03" step="0.01"></div>
+      <div><label for="wf-folds">Profitable OOS folds / total</label><input id="wf-folds" type="text" value="2 / 7"></div>
+    </div>
+    <div class="out" id="wf-out"></div>
+    <p class="small">Above 0.5 is worth a second look; between 0 and 0.5 is weak; at or below 0 the selection did not generalise. If the in-sample result is not positive, the ratio is undefined — quote the out-of-sample number instead.</p>
+  </section>
+
+  <section class="calc" id="dd">
+    <h2>4. Drawdown recovery</h2>
+    <p class="small">The gain required to get back to where you were. It is always larger than the loss.</p>
+    <div class="row3">
+      <div><label for="dd-pct">Drawdown (%)</label><input id="dd-pct" type="number" value="30" min="0" max="99" step="0.1"></div>
+      <div><label for="dd-bal">Starting balance ($)</label><input id="dd-bal" type="number" value="10000" min="0" step="100"></div>
+    </div>
+    <div class="out" id="dd-out"></div>
+    <p class="small">Required gain = drawdown ÷ (1 − drawdown). A 50% loss needs a 100% gain; a 30% loss needs 42.9%. This is why risk management is not optional.</p>
+  </section>
+
+  <section class="calc" id="prop">
+    <h2>5. Prop-firm challenge pass probability</h2>
+    <p class="small">A simple Monte Carlo of independent trades. It ignores commissions, slippage and correlation — treat it as a sanity check, not a promise.</p>
+    <div class="row3">
+      <div><label for="p-bal">Account size ($)</label><input id="p-bal" type="number" value="10000" min="0" step="100"></div>
+      <div><label for="p-risk">Risk per trade (%)</label><input id="p-risk" type="number" value="1" min="0.1" step="0.1"></div>
+      <div><label for="p-rr">Reward : risk</label><input id="p-rr" type="number" value="2" min="0.1" step="0.1"></div>
+    </div>
+    <div class="row3">
+      <div><label for="p-win">Win rate (%)</label><input id="p-win" type="number" value="45" min="0" max="100" step="0.1"></div>
+      <div><label for="p-target">Profit target (%)</label><input id="p-target" type="number" value="10" min="0.1" step="0.1"></div>
+      <div><label for="p-dd">Max drawdown (%)</label><input id="p-dd" type="number" value="6" min="0.1" step="0.1"></div>
+    </div>
+    <div class="row3">
+      <div><label for="p-trades">Max trades</label><input id="p-trades" type="number" value="100" min="1" step="1"></div>
+    </div>
+    <p><button class="btn" id="p-run" type="button">Run 5,000 simulations</button></p>
+    <div class="out" id="p-out">Press the button to run the simulation.</div>
+    <p class="small">Each trade risks the chosen percentage of current equity and wins or loses with the given probability. Pass if equity reaches the target before it breaches the drawdown limit. Fail by drawdown, or by running out of trades. No commissions, no slippage, no serial correlation.</p>
+  </section>
+
+  <h2>Turn a calculation into a measurement</h2>
+  <p>The calculators tell you what the assumptions imply. A validation tells you what your EA actually
+  did on data it never saw — and it is allowed to say no.</p>
+  <p><a class="btn" href="./order">Order a validation — from $29</a>
+  <a class="btn ghost" href="./sample-report">See a real sample report</a></p>
+
+  <h2>Get the checklist</h2>
+  <p>Five questions to ask before trusting any backtest. No account needed.</p>
+  <p><a class="btn ghost" href="./checklist.html">Open the checklist</a></p>
+  <form id="cap">
+    <label for="cap-email">Or get the next teardown by email</label>
+    <input id="cap-email" type="email" required placeholder="you@example.com">
+    <p style="margin-top:12px"><button class="btn" type="submit">Add me to the list</button>
+    <span class="small">One email a week, usually less. Unsubscribe in one click. I never sell the list.</span></p>
+  </form>
+  <div id="cap-msg"></div>
+
+  <div class="foot">
+    <p>Dhashan Naidoo · <a href="mailto:dhashannaidoo1234@gmail.com">dhashannaidoo1234@gmail.com</a></p>
+    <p><a href="./">Analyzer</a> · <a href="./tools">Tools</a> · <a href="./services">Services</a> ·
+    <a href="./sample-report">Sample report</a> · <a href="./order">Order</a> ·
+    <a href="./source-handling">Source handling</a> · <a href="./wf-tested">WF-Tested</a></p>
+  </div>
+</div>
+
+<script src="./config.js"></script>
+<script>
+(function () {
+  var API = window.MTB5_API || ((location.hostname.endsWith('.workers.dev') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : 'https://mt5-analyzer.dhashan.workers.dev');
+  function n(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function money(x) { return '$' + x.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}); }
+  function pct(x) { return (x * 100).toFixed(1) + '%'; }
+
+  function lot() {
+    var bal = n('ls-bal'), risk = n('ls-risk') / 100, stop = n('ls-stop'), pip = n('ls-pip');
+    var riskMoney = bal * risk;
+    var lots = stop > 0 && pip > 0 ? riskMoney / (stop * pip) : 0;
+    document.getElementById('ls-out').innerHTML =
+      '<b>' + lots.toFixed(2) + ' lots</b><br><span>Risking ' + money(riskMoney) +
+      ' of ' + money(bal) + ' at a ' + stop + '-pip stop. That is ' +
+      (lots * 100).toFixed(0) + ' micro-lots, or ' + (lots * 10).toFixed(1) + ' mini-lots.</span>';
+  }
+
+  function cost() {
+    var trades = n('c-trades'), lots = n('c-lots'), comm = n('c-comm'),
+        spread = n('c-spread'), pip = n('c-pip'), months = n('c-months');
+    var perTrade = lots * (comm + spread * pip);
+    var total = perTrade * trades * months;
+    document.getElementById('c-out').innerHTML =
+      '<b>' + money(total) + '</b><br><span>' + money(perTrade) + ' per trade × ' + trades +
+      ' trades/month × ' + months + ' months. That is ' + money(total / months) + ' a month before the strategy earns anything.</span>';
+  }
+
+  function wf() {
+    var is = n('wf-is'), oos = n('wf-oos');
+    var out = document.getElementById('wf-out');
+    if (is <= 0) {
+      out.innerHTML = '<b>Undefined</b><br><span>The in-sample result is not positive, so the ratio is meaningless. Quote the out-of-sample number: ' + money(oos) + '.</span>';
+      return;
+    }
+    var eff = oos / is;
+    var verdict = eff >= 0.5 ? 'Worth a second look' : eff > 0 ? 'Weak — the selection mostly did not generalise' : 'Failed — the selection did not survive unseen data';
+    out.innerHTML = '<b>' + eff.toFixed(2) + '</b><br><span>' + verdict + '. In-sample ' + money(is) + ', out-of-sample ' + money(oos) + '. Profitable OOS folds: ' + (document.getElementById('wf-folds').value || '—') + '.</span>';
+  }
+
+  function dd() {
+    var p = n('dd-pct') / 100, bal = n('dd-bal');
+    var need = p < 1 ? p / (1 - p) : Infinity;
+    var after = bal * (1 - p), target = bal;
+    document.getElementById('dd-out').innerHTML =
+      '<b>' + (need === Infinity ? '—' : pct(need)) + '</b><br><span>' + money(bal) + ' → ' + money(after) +
+      ' after a ' + (p * 100).toFixed(1) + '% drawdown. Getting back to ' + money(target) +
+      ' requires a ' + (need === Infinity ? '—' : pct(need)) + ' gain on the remaining balance.</span>';
+  }
+
+  function prop() {
+    var start = n('p-bal'), risk = n('p-risk') / 100, rr = n('p-rr'), win = n('p-win') / 100,
+        target = n('p-target') / 100, maxDD = n('p-dd') / 100, maxTrades = Math.max(1, Math.floor(n('p-trades')));
+    if (start <= 0 || risk <= 0 || maxTrades < 1) return;
+    var runs = 5000, pass = 0, failDD = 0, timeout = 0, passTrades = [];
+    for (var r = 0; r < runs; r++) {
+      var eq = start, peak = start, done = false;
+      for (var t = 1; t <= maxTrades; t++) {
+        if (eq <= start * (1 - maxDD)) { failDD++; done = true; break; }
+        if (eq >= start * (1 + target)) { pass++; passTrades.push(t); done = true; break; }
+        var riskMoney = eq * risk;
+        if (Math.random() < win) eq += riskMoney * rr;
+        else eq -= riskMoney;
+      }
+      if (!done) {
+        if (eq >= start * (1 + target)) { pass++; passTrades.push(maxTrades); }
+        else if (eq <= start * (1 - maxDD)) failDD++;
+        else timeout++;
+      }
+    }
+    passTrades.sort(function (a, b) { return a - b; });
+    var med = passTrades.length ? passTrades[Math.floor(passTrades.length / 2)] : 0;
+    document.getElementById('p-out').innerHTML =
+      '<b>' + (pass / runs * 100).toFixed(1) + '% pass</b><br><span>Failed by drawdown: ' +
+      (failDD / runs * 100).toFixed(1) + '%. Ran out of trades: ' + (timeout / runs * 100).toFixed(1) +
+      '%. Median trades to pass: ' + (med || '—') + '. Based on ' + runs.toLocaleString() +
+      ' independent simulations — not a forecast.</span>';
+  }
+
+  ['ls-bal','ls-risk','ls-stop','ls-pip'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', lot);
+  });
+  ['c-trades','c-lots','c-comm','c-spread','c-pip','c-months'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', cost);
+  });
+  ['wf-is','wf-oos','wf-folds'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', wf);
+  });
+  ['dd-pct','dd-bal'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', dd);
+  });
+  document.getElementById('p-run').addEventListener('click', prop);
+  lot(); cost(); wf(); dd();
+
+  document.getElementById('cap').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var email = document.getElementById('cap-email').value.trim();
+    var msg = document.getElementById('cap-msg');
+    fetch(API + '/api/subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, source: 'calculators' })
+    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (r) {
+        if (!r.ok) { msg.innerHTML = '<div class="note">' + (r.j.error || 'Could not add that address.') + '</div>'; return; }
+        msg.innerHTML = '<div class="note ok"><b>You are on the list.</b> The checklist is <a href="./checklist.html">here</a>. The next teardown goes out Friday.</div>';
+      }).catch(function () {
+        msg.innerHTML = '<div class="note">The list endpoint is unreachable. Email <a href="mailto:dhashannaidoo1234@gmail.com?subject=Checklist">dhashannaidoo1234@gmail.com</a> and I will add you.</div>';
+      });
+  });
+})();
+</script>
+</body>
+</html>

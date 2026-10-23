@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Orders — admin</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="./growth.css">
+</head>
+<body>
+<div class="wrap">
+  <h1 style="font-size:24px">Orders</h1>
+  <p class="small">Private. The token is stored in this browser only and sent as <code>x-order-token</code>.</p>
+
+  <form id="auth">
+    <label for="token">Order token</label>
+    <input id="token" type="password" placeholder="paste the ORDER_TOKEN">
+    <p style="margin-top:12px"><button class="btn" type="submit">Load</button>
+    <span class="small">The page refreshes every 60 seconds once loaded.</span></p>
+  </form>
+
+  <div id="stats" class="kpi"></div>
+  <div id="msg"></div>
+  <div id="list"></div>
+
+  <div class="foot"><p><a href="./">Back to the site</a></p></div>
+</div>
+<script>
+(function () {
+  var API = window.MTB5_API || ((location.hostname.endsWith('.workers.dev') || location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? location.origin : 'https://mt5-analyzer.dhashan.workers.dev');
+  var token = localStorage.getItem('mt5_order_token') || '';
+  var timer = null;
+  var t = document.getElementById('token');
+  t.value = token;
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function date(ms) { return ms ? new Date(ms).toLocaleString() : '—'; }
+
+  function load() {
+    if (!token) return;
+    fetch(API + '/api/orders', { headers: { 'x-order-token': token } })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (j) {
+        var orders = (j.orders || []).slice().sort(function (a, b) { return (b.created_at || 0) - (a.created_at || 0); });
+        var paid = orders.filter(function (o) { return o.paid; }).length;
+        var review = orders.filter(function (o) { return o.status === 'payment_review'; }).length;
+        var revenue = orders.filter(function (o) { return o.paid; }).reduce(function (s, o) { return s + (Number(o.usd) || 0); }, 0);
+        document.getElementById('stats').innerHTML =
+          '<div><div class="k">Orders</div><div class="v">' + orders.length + '</div></div>' +
+          '<div><div class="k">Paid</div><div class="v">' + paid + '</div></div>' +
+          '<div><div class="k">In review</div><div class="v">' + review + '</div></div>' +
+          '<div><div class="k">Booked</div><div class="v">$' + revenue.toFixed(0) + '</div></div>';
+
+        if (!orders.length) { document.getElementById('list').innerHTML = '<p class="small">No orders yet.</p>'; return; }
+        var html = '<table><tr><th>Created</th><th>Order</th><th>Tier</th><th>USD</th><th>Status</th><th>Paid</th><th>Email</th><th>Ref</th><th></th></tr>';
+        orders.forEach(function (o) {
+          var canConfirm = !o.paid && (o.tx || o.status === 'payment_review');
+          html += '<tr><td>' + esc(date(o.created_at)) + '</td><td><code>' + esc(o.id) + '</code></td><td>' +
+            esc(o.tier_label || o.tier) + '</td><td>$' + esc(o.usd) + '</td><td><b>' + esc(o.status) +
+            '</b></td><td>' + (o.paid ? 'yes' : 'no') + '</td><td>' + esc(o.email) + '</td><td class="small">' +
+            esc(o.tx || '—') + '</td><td>' +
+            (canConfirm ? '<button class="btn small" data-confirm="' + esc(o.id) + '">Confirm paid</button> ' : '') +
+            '<button class="btn ghost small" data-del="' + esc(o.id) + '">Delete</button></td></tr>';
+        });
+        html += '</table>';
+        document.getElementById('list').innerHTML = html;
+        document.querySelectorAll('[data-confirm]').forEach(function (b) {
+          b.addEventListener('click', function () { act('/api/order/confirm', b.getAttribute('data-confirm'), 'confirm'); });
+        });
+        document.querySelectorAll('[data-del]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            if (confirm('Delete this order?')) act('/api/order/' + encodeURIComponent(b.getAttribute('data-del')) + '/delete', null, 'delete');
+          });
+        });
+      })
+      .catch(function (e) { document.getElementById('msg').innerHTML = '<div class="note">Could not load: ' + esc(e.message) + '</div>'; });
+  }
+
+  function act(path, id, kind) {
+    var body = id ? JSON.stringify({ id: id }) : '{}';
+    fetch(API + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-order-token': token },
+      body: body
+    }).then(function (r) { return r.json(); }).then(function () {
+      document.getElementById('msg').innerHTML = '<div class="note ok">Done.</div>';
+      load();
+    }).catch(function (e) { document.getElementById('msg').innerHTML = '<div class="note">' + esc(e.message) + '</div>'; });
+  }
+
+  document.getElementById('auth').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    token = t.value.trim();
+    localStorage.setItem('mt5_order_token', token);
+    load();
+    if (timer) clearInterval(timer);
+    timer = setInterval(load, 60000);
+  });
+
+  if (token) { load(); timer = setInterval(load, 60000); }
+})();
+</script>
+</body>
+</html>
