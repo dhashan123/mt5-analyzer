@@ -66,3 +66,5 @@ word-break:break-all;margin:4px 0;cursor:pointer}
 .kpi .k{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
 .kpi .v{font-size:21px;font-weight:700;margin-top:2px;font-variant-numeric:tabular-nums}
 @media(max-width:640px){h1{font-size:24px}.wrap{padding:16px 14px 60px}.row{grid-template-columns:1fr}}
+
+@media(max-width:700px){table{display:block;overflow-x:auto;max-width:100%}th,td{white-space:nowrap}}
